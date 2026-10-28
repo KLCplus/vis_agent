@@ -1,0 +1,26 @@
+name: Validate MC1 pipeline
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.25.0'
+      - run: pip install -r backend/requirements.txt
+      - run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+      - run: python scripts/download_data.py
+      - run: python scripts/preprocess.py
+      - run: python -m pytest -q
+      - run: pnpm --dir frontend install --frozen-lockfile
+      - run: pnpm --dir frontend build
+      - run: python scripts/generate_figures.py
+      - run: python scripts/generate_docs.py
+      - run: python scripts/verify_artifacts.py

@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-28",
+  "python": "3.12.14",
+  "node": "v24.22.1",
+  "unit_and_api_tests": {
+    "passed": 14,
+    "failed": 0,
+    "command": ".venv/bin/python -m pytest -q"
+  },
+  "browser": {
+    "checks": [
+      "official dashboard and four charts rendered",
+      "agent filter updates actual message count",
+      "combined channel and agent filter",
+      "keyword filter",
+      "real-time range filters messages",
+      "all heatmap metrics switch",
+      "network relation type switch",
+      "heatmap cell click opens supporting messages",
+      "network node opens agent profile",
+      "network edge opens supporting messages",
+      "edge selection retains whole-round candidates by support intersection",
+      "evidence detail traces source pointer",
+      "first public anchor opens actual message",
+      "quality audit modal",
+      "real-time event point opens original environment evidence",
+      "empty state",
+      "tablet layout has no horizontal overflow"
+    ],
+    "page_errors": []
+  },
+  "artifact_verification": {
+    "raw_source_pointers": 912,
+    "tables": 8,
+    "required_reports": 6,
+    "figures": 7,
+    "status": "passed"
+  },
+  "frontend": {
+    "typescript": "passed",
+    "production_build": "passed",
+    "warning": "1.38MB main bundle, about 460KB gzip"
+  },
+  "document": {
+    "file": "reports/第一次作业_初稿.docx",
+    "pages_rendered": 9,
+    "visual_check": "all pages inspected; Chinese glyphs and captions visible",
+    "renderer": "bundled LibreOffice through render_docx.py, temporary CJK fontconfig/subset mapping"
+  },
+  "test_warning": "Starlette TestClient httpx compatibility deprecation; checks pass",
+  "remote_ci": "workflow configured; result not yet verified",
+  "dependencies": {
+    "fastapi": "0.162.0",
+    "pandas": "2.2.3",
+    "networkx": "3.7",
+    "matplotlib": "3.11.2",
+    "pytest": "9.2.0"
+  }
+}

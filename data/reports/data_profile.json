@@ -76,7 +76,7 @@
   "internal_state_rows": 86,
   "event_count": 129,
   "edge_count": 898,
-  "candidate_count": 65,
+  "candidate_count": 69,
   "round_window_hours": [
     0.9166666666666666,
     1.0,

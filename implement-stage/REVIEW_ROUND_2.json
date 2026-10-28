@@ -1,0 +1,21 @@
+{
+  "undeclared": [],
+  "stale_rows": [
+    {
+      "id": "A015",
+      "site": "frontend/src/App.tsx:31–34; backend/app/main.py:46",
+      "declared": "整轮候选保存全部支持消息；任一支持消息通过筛选即可显示候选，首条消息仅作定位。",
+      "implemented": "全局筛选已使用 supporting_message_ids，但图表联动 subset 仍按候选代表消息过滤；消息详情 API 仍只匹配候选的锚点 message_id。",
+      "why_it_matters": "真实候选 20460605_13_001:rate_surge 支持 legal_agent → quality_agent 边上的 20460605_13_004、015、023、048。该边不包含锚点 20460605_13_001，因此点击这条已高亮的边后切换到异常候选列表，该候选消失；查询上述支持消息的详情 API 也不返回该整轮候选。需要在这两个入口按支持消息交集关联。"
+    },
+    {
+      "id": "A015",
+      "site": "scripts/generate_figures.py:51; scripts/generate_docs.py:32",
+      "declared": "首条消息仅作定位，整轮候选关联全部支持消息。",
+      "implemented": "图表和文档的“异常候选关联消息”仍通过唯一 c.message_id 统计，仅计算锚点消息。",
+      "why_it_matters": "当前真实输出有 67 条唯一锚点消息、475 条唯一支持消息。把 67 标为全部关联消息会与新候选数据及网络高亮口径冲突；应统计 supporting_message_ids，或明确改称“候选定位消息”。"
+    }
+  ],
+  "semantic_undeclared": 0,
+  "verdict": "gaps"
+}

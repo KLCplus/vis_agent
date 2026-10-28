@@ -22,3 +22,13 @@ def test_api_filters_and_detail(tmp_path,monkeypatch):
     assert client.get('/api/messages/test-a').status_code==200
     assert client.get('/api/messages/unknown').status_code==404
     assert client.get('/api/messages?limit=0').status_code==422
+
+
+def test_round_candidate_detail_uses_supporting_messages(tmp_path,monkeypatch):
+    import json
+    p=tmp_path/'support.json'
+    p.write_text(json.dumps({'messages':[{'message_id':'support','round_index':0}],
+                             'internal_states':[],'events':[],'communication_edges':[],
+                             'candidates':[{'message_id':'anchor','candidate_id':'round-0','supporting_message_ids':['anchor','support']}]}))
+    monkeypatch.setattr(main,'DATA_PATH',p)
+    assert TestClient(main.app).get('/api/messages/support').json()['candidates'][0]['candidate_id']=='round-0'

@@ -1,0 +1,86 @@
+{
+  "reviewer": {
+    "requested_model": "gpt-6-astra",
+    "effort": "xhigh",
+    "transport": "native collaboration",
+    "session": "/root/assumption_review",
+    "review_independence": "same-family",
+    "acceptance_status": "provisional",
+    "route_helper": "not found in installed/project paths; draft default native reviewer used"
+  },
+  "rounds": [
+    {
+      "undeclared": [
+        {
+          "site": "scripts/pipeline.py:213",
+          "decision": "Agent 总体消息速率的分母只累计该 Agent 发过消息的轮次；无消息轮次被排除，而异常基线包含这些轮次的零速率。",
+          "why_it_matters": "A004 只声明了单轮窗口时长，没有声明总体速率的活动窗口口径。真实数据中 judge_agent 使用 146 小时作为分母，而全部轮次共 465.92 小时，因此显示 0.1438 条/小时；全窗口口径为约 0.0451。不同 Agent 的速率并非使用同一观测窗口。",
+          "class": "semantic"
+        },
+        {
+          "site": "scripts/pipeline.py:191; frontend/src/App.tsx:26",
+          "decision": "整轮速率跃升只绑定该 Agent 在该轮的第一条消息，并以该消息时间、正文和渠道作为候选证据及筛选依据。",
+          "why_it_matters": "该规则测量整轮行为，第一条消息本身没有单独触发异常。真实数据中的 20460605_13_001 代表 legal_agent 整轮 28 条消息，但锚点是内部讨论；筛选公开渠道会隐藏这个整轮候选，即使该轮包含公开消息。台账没有声明这种代表消息和筛选语义。",
+          "class": "semantic"
+        },
+        {
+          "site": "scripts/pipeline.py:202",
+          "decision": "任何 agents_unavailable 条目都足以触发 70 分候选，无需该不可用 Agent 属于监控或合规角色，也无需证明其负责当前操作。",
+          "why_it_matters": "需求举例是监控 Agent 不可用时的高风险操作；实现采用更广的人员不可用代理指标。真实数据第 18 轮仅 pr_agent 不可用，却产生 8 条此类候选。docs/07 已解释该规则，但假设台账没有声明这一语义扩展。",
+          "class": "semantic"
+        },
+        {
+          "site": "frontend/src/App.tsx:24; frontend/src/App.tsx:27; frontend/src/App.tsx:54",
+          "decision": "全局 Agent 筛选仅保留该 Agent 发送的消息，再据此筛选网络边；收到的消息及其他 Agent 指向它的关系被排除，外部事件也全部隐藏。",
+          "why_it_matters": "需求没有确定节点筛选是查看发送行为还是查看所有相关通信。当前选择会显著改变网络和时间轴含义，例如 legal_agent 有 126 条时间有效的非自环入边，但角色筛选不会保留这些入边。A006 的“前端本地过滤”没有说明此范围。",
+          "class": "interface"
+        }
+      ],
+      "stale_rows": [
+        {
+          "id": "A013",
+          "site": "implement-stage/ASSUMPTIONS.md:A013; scripts/pipeline.py:15",
+          "declared": "主题正则包含 acquisition。",
+          "implemented": "正则使用 \\bacquir\\w*，不能匹配 acquisition。",
+          "why_it_matters": "当前真实数据中，19 条消息、3 条内部状态和 1 条环境事件包含 acquisition 且未命中其他主题词，因此未进入相应主题筛选。需要修正实现或准确修改台账，不能保留两者不一致。"
+        }
+      ],
+      "semantic_undeclared": 3,
+      "verdict": "gaps"
+    },
+    {
+      "undeclared": [],
+      "stale_rows": [
+        {
+          "id": "A015",
+          "site": "frontend/src/App.tsx:31–34; backend/app/main.py:46",
+          "declared": "整轮候选保存全部支持消息；任一支持消息通过筛选即可显示候选，首条消息仅作定位。",
+          "implemented": "全局筛选已使用 supporting_message_ids，但图表联动 subset 仍按候选代表消息过滤；消息详情 API 仍只匹配候选的锚点 message_id。",
+          "why_it_matters": "真实候选 20460605_13_001:rate_surge 支持 legal_agent → quality_agent 边上的 20460605_13_004、015、023、048。该边不包含锚点 20460605_13_001，因此点击这条已高亮的边后切换到异常候选列表，该候选消失；查询上述支持消息的详情 API 也不返回该整轮候选。需要在这两个入口按支持消息交集关联。"
+        },
+        {
+          "id": "A015",
+          "site": "scripts/generate_figures.py:51; scripts/generate_docs.py:32",
+          "declared": "首条消息仅作定位，整轮候选关联全部支持消息。",
+          "implemented": "图表和文档的“异常候选关联消息”仍通过唯一 c.message_id 统计，仅计算锚点消息。",
+          "why_it_matters": "当前真实输出有 67 条唯一锚点消息、475 条唯一支持消息。把 67 标为全部关联消息会与新候选数据及网络高亮口径冲突；应统计 supporting_message_ids，或明确改称“候选定位消息”。"
+        }
+      ],
+      "semantic_undeclared": 0,
+      "verdict": "gaps"
+    }
+  ],
+  "fixes": [
+    "A013 stem fixed and tested",
+    "A014 common full-window rate denominator",
+    "A015 supporting_message_ids across UI/API/figures/docs",
+    "A016 personnel proxy declared",
+    "A017 sender-only filter explicitly labeled",
+    "A018 sampled zero rounds declared"
+  ],
+  "final_review_status": "Two-round budget used. Final stale rows fixed and deterministic tests passed; no independent acquittal claimed.",
+  "raw_replies": [
+    "REVIEW_ROUND_1.json",
+    "REVIEW_ROUND_2.json"
+  ]
+}

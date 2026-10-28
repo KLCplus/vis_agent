@@ -1,0 +1,9 @@
+# Tested direct dependency versions; transitive dependencies resolved by pip.
+fastapi==0.162.0
+uvicorn==0.54.0
+pandas==2.2.3
+networkx==3.7
+matplotlib==3.11.2
+pytest==9.2.0
+httpx==0.28.1
+python-docx==1.2.0

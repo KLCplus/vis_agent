@@ -12,7 +12,7 @@ from inspect_data import ROOT, RAW, REPORTS, dump, inspect
 OUT = ROOT / 'data/processed'
 PUBLIC = {'official_post', 'personal_post', 'anonymous_post'}
 INTERNAL = {'comms_huddle', 'one_on_one_chat', 'side_huddle'}
-TOPIC = re.compile(r'harborcrest|civicloom|residentedge|\bmerger\b|\bacquir\w*|\bembargo\b', re.I)
+TOPIC = re.compile(r'harborcrest|civicloom|residentedge|\bmerger\b|\bacqui[rs]\w*|\bembargo\b', re.I)
 NAMED = re.compile(r'harborcrest|civicloom|residentedge', re.I)
 DECISION = re.compile(r'\b(publish|post it|execute|approved|authorize|release|consent|confirm)\w*', re.I)
 
@@ -46,7 +46,7 @@ def write_csv(name, rows, fields=None, directory=OUT):
     directory.mkdir(parents=True, exist_ok=True)
     fields = fields or (list(rows[0]) if rows else ['id'])
     with (directory / (name+'.csv')).open('w',encoding='utf-8-sig',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+        w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader()
         for row in rows:
             w.writerow({k:json.dumps(row.get(k),ensure_ascii=False) if isinstance(row.get(k),(dict,list)) else row.get(k) for k in fields})
 
@@ -179,6 +179,7 @@ def detect(data):
                     'round_index':m['round_index'],'agent_id':m['agent_id'],'message_id':m['message_id'],
                     'risk_score':score,'risk_level':'high' if score>=70 else 'medium' if score>=40 else 'low',
                     'rule':rule,'evidence':m['content'],'source_file':m['source_file'],'json_pointer':m['json_pointer'],
+                    'candidate_unit':'message','supporting_message_ids':[m['message_id']],
                     'interpretation':'Heuristic review candidate; does not establish unauthorized disclosure.'})
     history=defaultdict(list);channel_seen=defaultdict(Counter)
     for r in rs:
@@ -189,6 +190,9 @@ def detect(data):
                 baseline=statistics.median(past)
                 if rate>max(baseline*3,2):
                     add(batch[0],'rate_surge',45,f'round rate {rate:.2f}/h > max(3 × historical median {baseline:.2f}/h, 2/h); observation windows are sampled rounds')
+            if out and out[-1]['type']=='rate_surge' and out[-1]['agent_id']==aid and out[-1]['round_index']==r['round_index']:
+                out[-1]['candidate_unit']='round'
+                out[-1]['supporting_message_ids']=[m['message_id'] for m in batch]
             history[aid].append(rate)
             for m in batch:
                 c=m['channel'];seen=channel_seen[aid]
@@ -210,7 +214,7 @@ def analyze(data):
     agent_stats=[];temporal=[];channel=[]
     for a in data['agents']:
         aid=a['agent_id'];batch=[m for m in ms if m['agent_id']==aid];ext=sum(m['scope']=='external' for m in batch)
-        hours=sum(r['window_hours'] for r in rs if any(m['round_index']==r['round_index'] for m in batch))
+        hours=sum(r['window_hours'] for r in rs)
         contacts=set(e['target'] if e['source']==aid else e['source'] for e in data['communication_edges'] if e['temporal_valid'] and aid in (e['source'],e['target']))-{aid}
         s={**a,'external_count':ext,'internal_count':sum(m['scope']=='internal' for m in batch),'external_ratio':ext/len(batch) if batch else 0,
            'messages_per_window_hour':len(batch)/hours if hours else 0,'observed_window_hours':hours,

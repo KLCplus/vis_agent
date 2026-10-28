@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "official dashboard and four charts rendered",
+    "agent filter updates actual message count",
+    "combined channel and agent filter",
+    "keyword filter",
+    "real-time range filters messages",
+    "all heatmap metrics switch",
+    "network relation type switch",
+    "heatmap cell click opens supporting messages",
+    "network node opens agent profile",
+    "network edge opens supporting messages",
+    "edge selection retains whole-round candidates by support intersection",
+    "evidence detail traces source pointer",
+    "first public anchor opens actual message",
+    "quality audit modal",
+    "real-time event point opens original environment evidence",
+    "empty state",
+    "tablet layout has no horizontal overflow"
+  ],
+  "page_errors": []
+}

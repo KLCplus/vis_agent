@@ -37,7 +37,7 @@ def inspect():
     if not datasets: raise FileNotFoundError('No official JSON. Run python scripts/download_data.py first.')
     REPORTS.mkdir(parents=True, exist_ok=True)
     with (REPORTS/'data_dictionary.csv').open('w',encoding='utf-8-sig',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=['json_path','types','occurrences','null_count']);w.writeheader()
+        w=csv.DictWriter(f,fieldnames=['json_path','types','occurrences','null_count'],lineterminator='\n');w.writeheader()
         for p,v in sorted(fields.items()): w.writerow({'json_path':p,'types':json.dumps(v['types']),'occurrences':v['present'],'null_count':v['null']})
     result={'files':inventory(),'datasets':datasets,'field_paths':len(fields)}
     dump(REPORTS/'data_profile.json', result)

@@ -43,6 +43,6 @@ def message(message_id:str):
     d=snapshot();m=next((m for m in d['messages'] if m['message_id']==message_id),None)
     if m is None:raise HTTPException(404,'Unknown message_id')
     return {'message':m,'internal_states':[s for s in d['internal_states'] if s['message_id']==message_id],
-            'candidates':[c for c in d['candidates'] if c['message_id']==message_id],
+            'candidates':[c for c in d['candidates'] if message_id in c.get('supporting_message_ids',[c['message_id']])],
             'events':[e for e in d['events'] if e['round_index']==m['round_index']],
             'relations':[e for e in d['communication_edges'] if message_id in (e['message_id'],e['related_message_id'])]}

@@ -83,3 +83,25 @@ def test_real_integrity_when_downloaded():
     assert all(e['message_id'] in ids for e in d['communication_edges'])
     assert all(not e['propagation_confirmed'] for e in d['communication_edges'])
     assert sum(t['message_count'] for t in d['temporal'])==len(ms)
+
+
+def test_acquisition_topic_is_not_dropped():
+    f=fixture();f["rounds"][0]["communications"][0]["content"]="An acquisition is under discussion."
+    d=analyze(normalize(f,"TEST_ONLY.json"))
+    assert d["messages"][0]["topic_match"]
+    assert any(e["message_id"]=="a" for e in d["evidence"])
+
+
+def test_agent_rates_share_full_corpus_denominator():
+    d=analyze(normalize(fixture(),'TEST_ONLY.json'))
+    assert len({a['observed_window_hours'] for a in d['agents']})==1
+    hours=sum(r['window_hours'] for r in d['rounds'])
+    assert all(a['messages_per_window_hour']==a['message_count']/hours for a in d['agents'])
+
+def test_real_round_candidate_support_covers_whole_agent_round():
+    p=Path('data/processed/dashboard.json')
+    if not p.exists():pytest.skip('Run preprocess')
+    d=json.loads(p.read_text())
+    for c in d['candidates']:
+        if c['candidate_unit']=='round':
+            assert set(c['supporting_message_ids'])=={m['message_id'] for m in d['messages'] if m['agent_id']==c['agent_id'] and m['round_index']==c['round_index']}

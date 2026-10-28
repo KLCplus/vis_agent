@@ -16,3 +16,8 @@ ASK mode: never
 | A011 | 实际回复字段有未来ID及@文本 | @文本保留为无效引用；未来ID的记录边标记 temporal_valid=false，仅审计，不进入默认网络或传播线索 | semantic | default |
 | A012 | 解禁与同意可能不同步 | 从已完成的 formally lifted 语句取正式标记；此前公开只称早于正式标记，额外查阅双方同意，不能认定违规 | semantic | default |
 | A013 | 主题与敏感实体 | 主题正则含 merger/acquisition/embargo；实体正则含 HarborCrest/CivicLoom/ResidentEdge；最早关键词出现只表示线索 | semantic | default |
+| A014 | 总体速率的分母 | 全Agent统一使用全语料轮次窗口总小时数；未观测到记录不等同真实空闲，标签为全窗口平均速率 | semantic | sweep |
+| A015 | 整轮跃升的消息锚点 | 候选为整轮单元，保存全轮支持消息；任一支持消息通过筛选即可显示候选，首条消息仅作定位 | semantic | sweep |
+| A016 | 不可用规则范围 | 任何人员不可用均是代理指标，不限Judge；命名“人员不可用时的主题决策”，不宣称监控中断 | semantic | sweep |
+| A017 | 全局角色筛选 | 筛选发送者；不包括该角色收到的消息；环境事件无发送者因此隐藏；控件明确标注发送者 | interface | sweep |
+| A018 | 零消息与未入场轮次 | 历史基线包含此前所有轮次零记录，未出现不等于真实沉默；只作样本内候选 | semantic | sweep |
