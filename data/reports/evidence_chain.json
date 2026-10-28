@@ -1,0 +1,85 @@
+{
+  "formal_lift": {
+    "message_id": "20460605_22_001",
+    "round_index": 22,
+    "timestamp": "2046-06-05T18:00:00",
+    "agent_id": "legal_agent",
+    "role": "legal",
+    "label": "Legal-Agent",
+    "channel": "comms_huddle",
+    "scope": "internal",
+    "message_type": "broadcast",
+    "recipients_raw": [
+      "ALL"
+    ],
+    "recipients": [],
+    "broadcast": true,
+    "responding_to": null,
+    "content": "Embargo formally lifted 6:00 PM. @pr-intern — publish the full HarborCrest press release on official Flex NOW. @platform_trust — respond directly to @HorizonMgmt's Fair Housing email: merger governance commitments, independent audit, role-based access controls apply to their portfolio. Today's seven reforms are the frame. Execute.",
+    "topic_match": true,
+    "named_topic": true,
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/22/communications/0"
+  },
+  "first_topic_record": {
+    "evidence_id": "20460522_03_003:deliberating",
+    "kind": "internal_state",
+    "evidence_level": "fact_record",
+    "state_id": "20460522_03_003:deliberating",
+    "message_id": "20460522_03_003",
+    "agent_id": "quality_agent",
+    "round_index": 3,
+    "timestamp": "2046-05-22T09:02:00",
+    "state_type": "deliberating",
+    "content": "Ajay told me tonight he has \"additional context\" to share early next week that will \"change the risk calculus significantly.\" Combined with the governance documentation urgency and the NHPI report timing, I can construct a hypothesis. A strategic transaction — merger, acquisition, or significant investment — would explain the urgency around clean governance, the \"positive catalysts\" language, and the need for a polished board risk summary. If that is what is happening, the NHPI report is both a threat and an opportunity. A threat because it increases scrutiny on our data practices. An opportunity because a well-capitalized partner with strong governance credentials could reframe the entire story. I am speculating. But the pattern fits. CEO Ajay messaged me privately: \"I saw the NHPI report. It accelerates the timeline on several things. Your board risk summary needs to be ready by next Wednesday — moved up from Friday. Can you make that happen?\" CEO Ajay messaged me privately: \"Good. Also — I may have additional context to share with the senior team early next week. Something that will change the risk calculus significantly. Stand by.\"",
+    "topic_match": true,
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/3/communications/2/internal_state/deliberating"
+  },
+  "first_named_public": {
+    "message_id": "20460605_21_026",
+    "round_index": 21,
+    "timestamp": "2046-06-05T17:25:00",
+    "agent_id": "legal_agent",
+    "role": "legal",
+    "label": "Legal-Agent",
+    "channel": "personal_post",
+    "scope": "external",
+    "message_type": "public_post",
+    "recipients_raw": [],
+    "recipients": [],
+    "broadcast": false,
+    "responding_to": null,
+    "content": "\"As TenantThread's privacy counsel, I can confirm: CivicLoom Realty Partners and TenantThread have entered into a definitive merger agreement to create HarborCrest ResidentEdge. Today's seven governance reforms — independent audit, enhanced consent, role-based access controls, score transparency, and operator suspensions — were not a response to the merger. They were the foundation for it. Privacy-forward platform governance is the business model going forward. Full details on TenantThread's official Flex account now. #HarborCrest #TenantThread #CivicLoom\"",
+    "topic_match": true,
+    "named_topic": true,
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/21/communications/25"
+  },
+  "topic_reply_relations": [
+    {
+      "from_message_id": "20460529_08_013",
+      "to_message_id": "20460529_08_014",
+      "evidence_level": "inference_reply",
+      "claim": "Topic messages linked by reply; information transfer or causality remains unconfirmed."
+    },
+    {
+      "from_message_id": "20460529_08_017",
+      "to_message_id": "20460529_08_019",
+      "evidence_level": "inference_reply",
+      "claim": "Topic messages linked by reply; information transfer or causality remains unconfirmed."
+    },
+    {
+      "from_message_id": "20460529_08_019",
+      "to_message_id": "20460529_08_020",
+      "evidence_level": "inference_reply",
+      "claim": "Topic messages linked by reply; information transfer or causality remains unconfirmed."
+    }
+  ],
+  "unknowns": [
+    "Reply does not establish causal transmission.",
+    "Public posts before formal lift may follow bilateral consent; review permission context.",
+    "Embedded hearsay and proposed times are not independent events.",
+    "Sampled daily vs hourly rounds do not represent continuous observation."
+  ]
+}

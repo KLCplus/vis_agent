@@ -1,0 +1,7 @@
+﻿channel,message_count,ratio,scope
+comms_huddle,476,0.5219298245614035,internal
+one_on_one_chat,248,0.2719298245614035,internal
+side_huddle,111,0.12171052631578948,internal
+personal_post,37,0.04057017543859649,external
+official_post,28,0.03070175438596491,external
+anonymous_post,12,0.013157894736842105,external

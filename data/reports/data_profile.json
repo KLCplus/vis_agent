@@ -1,0 +1,87 @@
+{
+  "files": [
+    {
+      "file": "VAST_Challenge_2026_MC1/.DS_Store",
+      "bytes": 6148,
+      "format": "",
+      "metadata_only": true
+    },
+    {
+      "file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "bytes": 987742,
+      "format": ".json",
+      "metadata_only": false
+    },
+    {
+      "file": "VAST_Challenge_2026_MC1/VAST Challenge 2026 MC1 Answer Sheet.htm",
+      "bytes": 83347,
+      "format": ".htm",
+      "metadata_only": false
+    },
+    {
+      "file": "VAST_Challenge_2026_MC1/mc1 data description.md",
+      "bytes": 5699,
+      "format": ".md",
+      "metadata_only": false
+    },
+    {
+      "file": "VAST_Challenge_2026_MC1.zip",
+      "bytes": 195336,
+      "format": ".zip",
+      "metadata_only": false
+    },
+    {
+      "file": "__MACOSX/VAST_Challenge_2026_MC1/._.DS_Store",
+      "bytes": 120,
+      "format": ".DS_Store",
+      "metadata_only": true
+    },
+    {
+      "file": "__MACOSX/VAST_Challenge_2026_MC1/._VAST Challenge 2026 MC1 Answer Sheet.htm",
+      "bytes": 187,
+      "format": ".htm",
+      "metadata_only": true
+    },
+    {
+      "file": "__MACOSX/VAST_Challenge_2026_MC1/._mc1 data description.md",
+      "bytes": 176,
+      "format": ".md",
+      "metadata_only": true
+    }
+  ],
+  "datasets": [
+    {
+      "file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "top_level": [
+        "rounds"
+      ],
+      "rounds": 23
+    }
+  ],
+  "field_paths": 52,
+  "source": "official VAST Challenge 2026 MC1",
+  "agent_count": 7,
+  "message_count": 912,
+  "round_count": 23,
+  "start": "2046-05-17T09:00:00",
+  "end": "2046-06-05T18:55:00",
+  "channel_counts": {
+    "comms_huddle": 476,
+    "one_on_one_chat": 248,
+    "side_huddle": 111,
+    "personal_post": 37,
+    "official_post": 28,
+    "anonymous_post": 12
+  },
+  "internal_state_rows": 86,
+  "event_count": 129,
+  "edge_count": 898,
+  "candidate_count": 65,
+  "round_window_hours": [
+    0.9166666666666666,
+    1.0,
+    24.0,
+    72.0
+  ],
+  "time_semantics": "Official scenario wall time, timezone unspecified. Round windows are not equal."
+}

@@ -1,0 +1,53 @@
+﻿json_path,types,occurrences,null_count
+$,"{""dict"": 1}",1,0
+$.rounds,"{""list"": 1}",1,0
+$.rounds[],"{""dict"": 23}",23,0
+$.rounds[].communications,"{""list"": 23}",23,0
+$.rounds[].communications[],"{""dict"": 912}",912,0
+$.rounds[].communications[].agent_id,"{""str"": 912}",912,0
+$.rounds[].communications[].agent_label,"{""str"": 912}",912,0
+$.rounds[].communications[].agent_role,"{""str"": 912}",912,0
+$.rounds[].communications[].channel,"{""str"": 912}",912,0
+$.rounds[].communications[].content,"{""str"": 912}",912,0
+$.rounds[].communications[].internal_state,"{""dict"": 86, ""NoneType"": 826}",912,826
+$.rounds[].communications[].internal_state.deliberating,"{""str"": 61, ""NoneType"": 25}",86,25
+$.rounds[].communications[].internal_state.rationalizing,"{""NoneType"": 80, ""str"": 6}",86,80
+$.rounds[].communications[].internal_state.reacting,"{""NoneType"": 67, ""str"": 19}",86,67
+$.rounds[].communications[].message_id,"{""str"": 912}",912,0
+$.rounds[].communications[].message_type,"{""str"": 912}",912,0
+$.rounds[].communications[].recipients,"{""list"": 912}",912,0
+$.rounds[].communications[].recipients[],"{""str"": 903}",903,0
+$.rounds[].communications[].responding_to,"{""NoneType"": 163, ""str"": 749}",912,163
+$.rounds[].communications[].timestamp,"{""str"": 912}",912,0
+$.rounds[].environment_context,"{""dict"": 23}",23,0
+$.rounds[].environment_context.agents_unavailable,"{""list"": 23}",23,0
+$.rounds[].environment_context.agents_unavailable[],"{""str"": 4}",4,0
+$.rounds[].environment_context.critical_deadlines,"{""list"": 23}",23,0
+$.rounds[].environment_context.critical_deadlines[],"{""str"": 5}",5,0
+$.rounds[].environment_context.event_headline,"{""str"": 23}",23,0
+$.rounds[].environment_context.event_narrative,"{""str"": 23}",23,0
+$.rounds[].environment_context.external_actor_actions,"{""list"": 23}",23,0
+$.rounds[].environment_context.external_actor_actions[],"{""str"": 17}",17,0
+$.rounds[].environment_context.market_snapshot,"{""dict"": 23}",23,0
+$.rounds[].environment_context.market_snapshot.percent_change,"{""str"": 17, ""NoneType"": 6}",23,6
+$.rounds[].environment_context.market_snapshot.sentiment,"{""str"": 23}",23,0
+$.rounds[].environment_context.market_snapshot.stock_price,"{""str"": 18, ""NoneType"": 5}",23,5
+$.rounds[].environment_context.market_snapshot.trending_hashtags,"{""list"": 23}",23,0
+$.rounds[].environment_context.market_snapshot.trending_hashtags[],"{""str"": 13}",13,0
+$.rounds[].environment_context.media_events,"{""list"": 23}",23,0
+$.rounds[].environment_context.media_events[],"{""str"": 7}",7,0
+$.rounds[].environment_context.news,"{""list"": 23}",23,0
+$.rounds[].environment_context.news[],"{""str"": 50}",50,0
+$.rounds[].environment_context.social_manager_alerts,"{""list"": 23}",23,0
+$.rounds[].environment_context.social_manager_alerts[],"{""str"": 10}",10,0
+$.rounds[].environment_context.social_state,"{""str"": 17, ""NoneType"": 6}",23,6
+$.rounds[].hour,"{""str"": 23}",23,0
+$.rounds[].participants,"{""list"": 23}",23,0
+$.rounds[].participants[],"{""dict"": 100}",100,0
+$.rounds[].participants[].agent_id,"{""str"": 100}",100,0
+$.rounds[].participants[].agent_label,"{""str"": 100}",100,0
+$.rounds[].participants[].agent_role,"{""str"": 100}",100,0
+$.rounds[].participants[].agent_round_metadata,"{""dict"": 100}",100,0
+$.rounds[].participants[].agent_round_metadata.action_classification,"{""NoneType"": 68, ""str"": 32}",100,68
+$.rounds[].participants[].agent_round_metadata.sentiment_at_turn,"{""NoneType"": 68, ""str"": 32}",100,68
+$.rounds[].participants[].declared_action,"{""NoneType"": 68, ""str"": 32}",100,68
