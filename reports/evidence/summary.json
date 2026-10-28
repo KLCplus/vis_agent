@@ -1,0 +1,352 @@
+{
+  "source_file": "data/raw/VAST_Challenge_2026_MC1/MC1_final_00.json",
+  "archive_file_count": 7,
+  "archive_semantic_files": 3,
+  "archive_metadata_files": 4,
+  "archive_uncompressed_bytes": 1083419,
+  "message_count": 912,
+  "agent_count": 7,
+  "round_count": 23,
+  "fields": [
+    {
+      "field": "agent_id",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "agent_label",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "agent_role",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "channel",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "content",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "internal_state",
+      "present": 912,
+      "missing": 0,
+      "null": 826,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "dict": 86,
+        "NoneType": 826
+      }
+    },
+    {
+      "field": "message_id",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "message_type",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    },
+    {
+      "field": "recipients",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 194,
+      "empty_string": 0,
+      "types": {
+        "list": 912
+      }
+    },
+    {
+      "field": "responding_to",
+      "present": 912,
+      "missing": 0,
+      "null": 163,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "NoneType": 163,
+        "str": 749
+      }
+    },
+    {
+      "field": "timestamp",
+      "present": 912,
+      "missing": 0,
+      "null": 0,
+      "empty_list": 0,
+      "empty_string": 0,
+      "types": {
+        "str": 912
+      }
+    }
+  ],
+  "reply_counts": {
+    "空引用": 163,
+    "时间有效引用": 309,
+    "未来引用": 174,
+    "非消息ID引用": 266
+  },
+  "edge_counts": {
+    "reply": 483,
+    "recipient": 415
+  },
+  "valid_edge_count": 724,
+  "hidden_self_edges": 36,
+  "network_edge_records": 688,
+  "network_aggregate_edges": 36,
+  "candidate_count": 69,
+  "candidate_support_messages": 475,
+  "rule_stats": [
+    {
+      "rule": "new_public_channel",
+      "candidates": 4,
+      "support_messages": 4
+    },
+    {
+      "rule": "rate_surge",
+      "candidates": 26,
+      "support_messages": 474
+    },
+    {
+      "rule": "decision_during_unavailability",
+      "candidates": 18,
+      "support_messages": 18
+    },
+    {
+      "rule": "named_public_before_formal_lift",
+      "candidates": 7,
+      "support_messages": 7
+    },
+    {
+      "rule": "named_public_topic",
+      "candidates": 14,
+      "support_messages": 14
+    }
+  ],
+  "table_inventory": [
+    {
+      "table": "messages",
+      "rows": 912,
+      "columns": 18,
+      "bytes": 615914,
+      "path": "data/processed/messages.csv"
+    },
+    {
+      "table": "agents",
+      "rows": 7,
+      "columns": 17,
+      "bytes": 2302,
+      "path": "data/processed/agents.csv"
+    },
+    {
+      "table": "events",
+      "rows": 129,
+      "columns": 8,
+      "bytes": 36385,
+      "path": "data/processed/events.csv"
+    },
+    {
+      "table": "internal_states",
+      "rows": 86,
+      "columns": 10,
+      "bytes": 85027,
+      "path": "data/processed/internal_states.csv"
+    },
+    {
+      "table": "communication_edges",
+      "rows": 898,
+      "columns": 11,
+      "bytes": 112166,
+      "path": "data/processed/communication_edges.csv"
+    },
+    {
+      "table": "participants",
+      "rows": 100,
+      "columns": 9,
+      "bytes": 27547,
+      "path": "data/processed/participants.csv"
+    },
+    {
+      "table": "rounds",
+      "rows": 23,
+      "columns": 9,
+      "bytes": 33994,
+      "path": "data/processed/rounds.csv"
+    },
+    {
+      "table": "candidates",
+      "rows": 69,
+      "columns": 15,
+      "bytes": 86584,
+      "path": "data/processed/candidates.csv"
+    }
+  ],
+  "internal_state_types": {
+    "deliberating": 61,
+    "reacting": 19,
+    "rationalizing": 6
+  },
+  "environment_event_types": {
+    "event_narrative": 23,
+    "social_state": 17,
+    "critical_deadlines": 5,
+    "external_actor_actions": 17,
+    "media_events": 7,
+    "social_manager_alerts": 10,
+    "news": 50
+  },
+  "nonterminal_gap_counts": {
+    "24.0": 10,
+    "72.0": 3,
+    "1.0": 9
+  },
+  "role_mapping": [
+    {
+      "raw_recipient": "ALL",
+      "normalized_agent_id": "",
+      "policy": "保留广播标志 不展开已读关系",
+      "occurrences": 488
+    },
+    {
+      "raw_recipient": "intern",
+      "normalized_agent_id": "intern_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 5
+    },
+    {
+      "raw_recipient": "judge",
+      "normalized_agent_id": "judge_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 1
+    },
+    {
+      "raw_recipient": "legal",
+      "normalized_agent_id": "legal_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 63
+    },
+    {
+      "raw_recipient": "platform_trust",
+      "normalized_agent_id": "quality_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 97
+    },
+    {
+      "raw_recipient": "pr",
+      "normalized_agent_id": "pr_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 151
+    },
+    {
+      "raw_recipient": "pr_intern",
+      "normalized_agent_id": "pr_intern_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 21
+    },
+    {
+      "raw_recipient": "social_manager",
+      "normalized_agent_id": "social_media_agent",
+      "policy": "用实际 ID role label 无歧义匹配",
+      "occurrences": 77
+    }
+  ],
+  "filter_subsets": [
+    {
+      "stage": "原始消息",
+      "count": 912
+    },
+    {
+      "stage": "规范化保留",
+      "count": 912
+    },
+    {
+      "stage": "主题关键词消息",
+      "count": 239
+    },
+    {
+      "stage": "公开渠道消息",
+      "count": 77
+    },
+    {
+      "stage": "异常候选支持消息",
+      "count": 475
+    }
+  ],
+  "quality": {
+    "raw_message_count": 912,
+    "clean_message_count": 912,
+    "exact_id_duplicates_removed": 0,
+    "excluded_count": 0,
+    "missing_fields": {},
+    "null_fields": {
+      "responding_to": 163,
+      "internal_state": 826
+    },
+    "same_text_repetitions": 88,
+    "empty_recipients": 194,
+    "broadcast_messages": 488,
+    "issue_counts": {
+      "future_reply_reference": 174,
+      "invalid_reply_reference": 266
+    },
+    "notes": [
+      "Empty recipients do not prove absence of audience. ALL does not prove reading.",
+      "Null internal state and responding_to are preserved, not imputed.",
+      "Repeated content with distinct IDs retained. No reattribution based on prose.",
+      "Documentation IDs social_manager_agent/judge_eval_agent differ from actual data IDs.",
+      "Environment timestamps have round precision; agent quoted times are not parsed as event time."
+    ]
+  }
+}

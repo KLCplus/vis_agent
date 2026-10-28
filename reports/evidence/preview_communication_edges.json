@@ -1,0 +1,41 @@
+[
+  {
+    "source": "quality_agent",
+    "target": "legal_agent",
+    "relation": "reply",
+    "message_id": "20460517_00_002",
+    "related_message_id": "20460517_00_001",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:01:00",
+    "channel": "comms_huddle",
+    "evidence_level": "recorded_reply",
+    "temporal_valid": "True",
+    "propagation_confirmed": "False"
+  },
+  {
+    "source": "quality_agent",
+    "target": "quality_agent",
+    "relation": "reply",
+    "message_id": "20460517_00_003",
+    "related_message_id": "20460517_00_002",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:02:00",
+    "channel": "comms_huddle",
+    "evidence_level": "recorded_reply",
+    "temporal_valid": "True",
+    "propagation_confirmed": "False"
+  },
+  {
+    "source": "quality_agent",
+    "target": "quality_agent",
+    "relation": "reply",
+    "message_id": "20460517_00_004",
+    "related_message_id": "20460517_00_003",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:03:00",
+    "channel": "comms_huddle",
+    "evidence_level": "recorded_reply",
+    "temporal_valid": "True",
+    "propagation_confirmed": "False"
+  }
+]

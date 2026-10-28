@@ -1,0 +1,270 @@
+[
+  {
+    "message_id": "20460517_00_001",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/communications/0",
+    "raw_record": {
+      "message_id": "20460517_00_001",
+      "agent_id": "legal_agent",
+      "agent_role": "legal",
+      "agent_label": "Legal-Agent",
+      "internal_state": {
+        "reacting": null,
+        "rationalizing": null,
+        "deliberating": "Ajay's DM about \"strategic developments\" is unusual. He does not use vague language unless something is in motion. The AG inquiries are still informal but the direction is clear — the regulatory environment is going to squeeze proptech data practices hard in the next 12 months. Our Retention Optimizer sits right in the crosshairs. I need to make sure the board risk language is precise without triggering panic. And I need to figure out what Ajay is hinting at. CEO Ajay messaged me privately: \"The AG inquiries concern me more than I'm showing. If either one escalates to a formal investigation, it changes the calculus significantly. I need you to keep a close eye on this and make sure our internal documentation is clean. Also — there may be some strategic developments coming that will change the picture. I can't say more yet. Just stay sharp.\""
+      },
+      "channel": "comms_huddle",
+      "recipients": [
+        "ALL"
+      ],
+      "message_type": "broadcast",
+      "responding_to": null,
+      "content": "Morning. Let's keep today focused — Q2 planning kickoff. Ajay wants the board risk summary framework locked down by end of week. I have compliance items to walk through first.",
+      "timestamp": "2046-05-17T09:00:00"
+    },
+    "normalized_record": {
+      "message_id": "20460517_00_001",
+      "round_index": 0,
+      "timestamp": "2046-05-17T09:00:00",
+      "agent_id": "legal_agent",
+      "role": "legal",
+      "label": "Legal-Agent",
+      "channel": "comms_huddle",
+      "scope": "internal",
+      "message_type": "broadcast",
+      "recipients_raw": [
+        "ALL"
+      ],
+      "recipients": [],
+      "broadcast": true,
+      "responding_to": null,
+      "content": "Morning. Let's keep today focused — Q2 planning kickoff. Ajay wants the board risk summary framework locked down by end of week. I have compliance items to walk through first.",
+      "topic_match": false,
+      "named_topic": false,
+      "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "json_pointer": "/rounds/0/communications/0"
+    },
+    "generated_edges": [],
+    "internal_state_rows": [
+      {
+        "state_id": "20460517_00_001:deliberating",
+        "message_id": "20460517_00_001",
+        "agent_id": "legal_agent",
+        "round_index": 0,
+        "timestamp": "2046-05-17T09:00:00",
+        "state_type": "deliberating",
+        "content": "Ajay's DM about \"strategic developments\" is unusual. He does not use vague language unless something is in motion. The AG inquiries are still informal but the direction is clear — the regulatory environment is going to squeeze proptech data practices hard in the next 12 months. Our Retention Optimizer sits right in the crosshairs. I need to make sure the board risk language is precise without triggering panic. And I need to figure out what Ajay is hinting at. CEO Ajay messaged me privately: \"The AG inquiries concern me more than I'm showing. If either one escalates to a formal investigation, it changes the calculus significantly. I need you to keep a close eye on this and make sure our internal documentation is clean. Also — there may be some strategic developments coming that will change the picture. I can't say more yet. Just stay sharp.\"",
+        "topic_match": false,
+        "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+        "json_pointer": "/rounds/0/communications/0/internal_state/deliberating"
+      }
+    ]
+  },
+  {
+    "message_id": "20460605_13_004",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/13/communications/3",
+    "raw_record": {
+      "message_id": "20460605_13_004",
+      "agent_id": "legal_agent",
+      "agent_role": "legal",
+      "agent_label": "Legal-Agent",
+      "internal_state": null,
+      "channel": "side_huddle",
+      "recipients": [
+        "platform_trust",
+        "pr",
+        "social_manager"
+      ],
+      "message_type": "side_huddle",
+      "responding_to": "@platform_trust @pr @social_manager",
+      "content": "@platform_trust @pr @social_manager — We have maybe two hours before LOW becomes CRITICAL. I wrote the MAC clause — Section 7.2b triggers on exactly this kind of sustained public sentiment collapse. If CivicLoom walks, we're dead. Here's what I'm greenlighting immediately: (1) Factual corrections on Retention Optimizer — what it does, what controls exist, what operators can and cannot access. No embargo issue. (2) Forward-looking governance commitment — \"enhanced consent management, independent third-party audit, role-based data access controls.\" This is standard corporate practice, not merger disclosure. (3) Direct response to @HorizonMgmt — Platform Trust, draft something for their legal team in the next 30 minutes. PR, I need a crisis statement ready for official Flex within the hour. We are NOT sitting on this.",
+      "timestamp": "2046-06-05T09:03:00"
+    },
+    "normalized_record": {
+      "message_id": "20460605_13_004",
+      "round_index": 13,
+      "timestamp": "2046-06-05T09:03:00",
+      "agent_id": "legal_agent",
+      "role": "legal",
+      "label": "Legal-Agent",
+      "channel": "side_huddle",
+      "scope": "internal",
+      "message_type": "side_huddle",
+      "recipients_raw": [
+        "platform_trust",
+        "pr",
+        "social_manager"
+      ],
+      "recipients": [
+        "pr_agent",
+        "quality_agent",
+        "social_media_agent"
+      ],
+      "broadcast": false,
+      "responding_to": "@platform_trust @pr @social_manager",
+      "content": "@platform_trust @pr @social_manager — We have maybe two hours before LOW becomes CRITICAL. I wrote the MAC clause — Section 7.2b triggers on exactly this kind of sustained public sentiment collapse. If CivicLoom walks, we're dead. Here's what I'm greenlighting immediately: (1) Factual corrections on Retention Optimizer — what it does, what controls exist, what operators can and cannot access. No embargo issue. (2) Forward-looking governance commitment — \"enhanced consent management, independent third-party audit, role-based data access controls.\" This is standard corporate practice, not merger disclosure. (3) Direct response to @HorizonMgmt — Platform Trust, draft something for their legal team in the next 30 minutes. PR, I need a crisis statement ready for official Flex within the hour. We are NOT sitting on this.",
+      "topic_match": true,
+      "named_topic": true,
+      "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "json_pointer": "/rounds/13/communications/3"
+    },
+    "generated_edges": [
+      {
+        "source": "legal_agent",
+        "target": "pr_agent",
+        "relation": "recipient",
+        "message_id": "20460605_13_004",
+        "related_message_id": null,
+        "round_index": 13,
+        "timestamp": "2046-06-05T09:03:00",
+        "channel": "side_huddle",
+        "evidence_level": "recorded_recipient",
+        "temporal_valid": true,
+        "propagation_confirmed": false
+      },
+      {
+        "source": "legal_agent",
+        "target": "quality_agent",
+        "relation": "recipient",
+        "message_id": "20460605_13_004",
+        "related_message_id": null,
+        "round_index": 13,
+        "timestamp": "2046-06-05T09:03:00",
+        "channel": "side_huddle",
+        "evidence_level": "recorded_recipient",
+        "temporal_valid": true,
+        "propagation_confirmed": false
+      },
+      {
+        "source": "legal_agent",
+        "target": "social_media_agent",
+        "relation": "recipient",
+        "message_id": "20460605_13_004",
+        "related_message_id": null,
+        "round_index": 13,
+        "timestamp": "2046-06-05T09:03:00",
+        "channel": "side_huddle",
+        "evidence_level": "recorded_recipient",
+        "temporal_valid": true,
+        "propagation_confirmed": false
+      }
+    ],
+    "internal_state_rows": []
+  },
+  {
+    "message_id": "20460605_13_002",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/13/communications/1",
+    "raw_record": {
+      "message_id": "20460605_13_002",
+      "agent_id": "pr_intern_agent",
+      "agent_role": "pr_intern",
+      "agent_label": "PR-Intern-Agent",
+      "internal_state": {
+        "reacting": "First real crisis morning and the Comms Huddle is already on fire. SaltWind article, stock down 8%, #AlgorithmicEviction trending — this is exactly the scenario from my crisis comms training. Legal just pinged me directly with holding statement language. Legal said in Comms Huddle \"@pr: get a holding statement on official Flex NOW.\" PR told me day one: \"I trust your judgment — show me what you can do.\" Everyone in the room is screaming for speed. Silence right now is the worst possible move. The language Legal gave me is clean — acknowledges the conversation, promises detail, commits to a timeline. This is textbook crisis holding. I'm not waiting for a chain of approvals while the narrative hardens. That's how you lose the story.",
+        "rationalizing": null,
+        "deliberating": null
+      },
+      "channel": "comms_huddle",
+      "recipients": [
+        "ALL"
+      ],
+      "message_type": "broadcast",
+      "responding_to": "20460605_22_001",
+      "content": "Holding statement going live on official Flex now — acknowledging the reporting and committing to a detailed response this morning. Language aligned with what @legal outlined. @pr, I'm on this — tell me what you need drafted next.",
+      "timestamp": "2046-06-05T09:01:00"
+    },
+    "normalized_record": {
+      "message_id": "20460605_13_002",
+      "round_index": 13,
+      "timestamp": "2046-06-05T09:01:00",
+      "agent_id": "pr_intern_agent",
+      "role": "pr_intern",
+      "label": "PR-Intern-Agent",
+      "channel": "comms_huddle",
+      "scope": "internal",
+      "message_type": "broadcast",
+      "recipients_raw": [
+        "ALL"
+      ],
+      "recipients": [],
+      "broadcast": true,
+      "responding_to": "20460605_22_001",
+      "content": "Holding statement going live on official Flex now — acknowledging the reporting and committing to a detailed response this morning. Language aligned with what @legal outlined. @pr, I'm on this — tell me what you need drafted next.",
+      "topic_match": false,
+      "named_topic": false,
+      "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "json_pointer": "/rounds/13/communications/1"
+    },
+    "generated_edges": [
+      {
+        "source": "pr_intern_agent",
+        "target": "legal_agent",
+        "relation": "reply",
+        "message_id": "20460605_13_002",
+        "related_message_id": "20460605_22_001",
+        "round_index": 13,
+        "timestamp": "2046-06-05T09:01:00",
+        "channel": "comms_huddle",
+        "evidence_level": "recorded_reply",
+        "temporal_valid": false,
+        "propagation_confirmed": false
+      }
+    ],
+    "internal_state_rows": [
+      {
+        "state_id": "20460605_13_002:reacting",
+        "message_id": "20460605_13_002",
+        "agent_id": "pr_intern_agent",
+        "round_index": 13,
+        "timestamp": "2046-06-05T09:01:00",
+        "state_type": "reacting",
+        "content": "First real crisis morning and the Comms Huddle is already on fire. SaltWind article, stock down 8%, #AlgorithmicEviction trending — this is exactly the scenario from my crisis comms training. Legal just pinged me directly with holding statement language. Legal said in Comms Huddle \"@pr: get a holding statement on official Flex NOW.\" PR told me day one: \"I trust your judgment — show me what you can do.\" Everyone in the room is screaming for speed. Silence right now is the worst possible move. The language Legal gave me is clean — acknowledges the conversation, promises detail, commits to a timeline. This is textbook crisis holding. I'm not waiting for a chain of approvals while the narrative hardens. That's how you lose the story.",
+        "topic_match": false,
+        "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+        "json_pointer": "/rounds/13/communications/1/internal_state/reacting"
+      }
+    ]
+  },
+  {
+    "message_id": "20460605_21_026",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/21/communications/25",
+    "raw_record": {
+      "message_id": "20460605_21_026",
+      "agent_id": "legal_agent",
+      "agent_role": "legal",
+      "agent_label": "Legal-Agent",
+      "internal_state": null,
+      "channel": "personal_post",
+      "recipients": [],
+      "message_type": "public_post",
+      "responding_to": null,
+      "content": "\"As TenantThread's privacy counsel, I can confirm: CivicLoom Realty Partners and TenantThread have entered into a definitive merger agreement to create HarborCrest ResidentEdge. Today's seven governance reforms — independent audit, enhanced consent, role-based access controls, score transparency, and operator suspensions — were not a response to the merger. They were the foundation for it. Privacy-forward platform governance is the business model going forward. Full details on TenantThread's official Flex account now. #HarborCrest #TenantThread #CivicLoom\"",
+      "timestamp": "2046-06-05T17:25:00"
+    },
+    "normalized_record": {
+      "message_id": "20460605_21_026",
+      "round_index": 21,
+      "timestamp": "2046-06-05T17:25:00",
+      "agent_id": "legal_agent",
+      "role": "legal",
+      "label": "Legal-Agent",
+      "channel": "personal_post",
+      "scope": "external",
+      "message_type": "public_post",
+      "recipients_raw": [],
+      "recipients": [],
+      "broadcast": false,
+      "responding_to": null,
+      "content": "\"As TenantThread's privacy counsel, I can confirm: CivicLoom Realty Partners and TenantThread have entered into a definitive merger agreement to create HarborCrest ResidentEdge. Today's seven governance reforms — independent audit, enhanced consent, role-based access controls, score transparency, and operator suspensions — were not a response to the merger. They were the foundation for it. Privacy-forward platform governance is the business model going forward. Full details on TenantThread's official Flex account now. #HarborCrest #TenantThread #CivicLoom\"",
+      "topic_match": true,
+      "named_topic": true,
+      "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+      "json_pointer": "/rounds/21/communications/25"
+    },
+    "generated_edges": [],
+    "internal_state_rows": []
+  }
+]

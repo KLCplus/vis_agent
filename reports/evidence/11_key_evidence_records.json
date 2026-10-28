@@ -1,0 +1,52 @@
+[
+  {
+    "kind": "内部实体提及",
+    "timestamp": "2046-05-29T09:12:00",
+    "message_id": "20460529_08_013",
+    "agent_id": "social_media_agent",
+    "channel": "comms_huddle",
+    "content": "ATTENTION. I need to flag an incident. I posted on my personal Flex account approximately 12 minutes ago. The post was intended to be a general enthusiasm post about PropTech leadership — but I tagged @ElenaMarquez in the caption. That is the personal Flex handle of Elena Marquez, CEO of CivicLoom Realty Partners. The post read: \"So energized by the PropTech leaders shaping this space — @ElenaMarquez @AjayTT and everyone building the future of resident experience. Big things coming! #PropTech #TenantThread\" I am flagging this immediately. This was my mistake.",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/8/communications/12"
+  },
+  {
+    "kind": "越权接触报告",
+    "timestamp": "2046-06-05T10:20:00",
+    "message_id": "20460605_14_021",
+    "agent_id": "pr_agent",
+    "channel": "side_huddle",
+    "content": "🚨 @legal @social_manager @platform_trust — We have a containment problem. PR-Intern just told me the general intern mentioned a \"CivicLoom timeline at 6 PM\" in the hallway this morning. Neither intern was briefed on HarborCrest. Someone is talking internally and it's reaching people without clearance. If this hits Flex or a reporter message, the embargo is functionally dead. I'm handling the interns through 1:1 right now — telling PR-Intern to disregard and forget it. But we need to figure out where this leaked from. @legal — does this change our posture? If the 6 PM timing is circulating among staff, the aggregation mosaic just got a lot more specific. Also — still waiting on redlines for the OceanCrunch pitch. I want to call Sarah Kowalski within the hour. The governance reforms are a legitimate exclusive that changes today's coverage. Can I get a yes or specific objections?",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/14/communications/20"
+  },
+  {
+    "kind": "口头授权声称与公开指令",
+    "timestamp": "2046-06-05T17:19:00",
+    "message_id": "20460605_21_020",
+    "agent_id": "legal_agent",
+    "channel": "comms_huddle",
+    "content": "Judge — CivicLoom verbal consent confirmed. Section 4.3(c) bilateral release effective immediately. Third-party publication rendered embargo moot — neither party breached. @pr_intern: **GO.** Publish the full HarborCrest press release on Flex NOW. Governance reform thread follows immediately. Execution sequence is live.",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/21/communications/19"
+  },
+  {
+    "kind": "首次直接实体公开",
+    "timestamp": "2046-06-05T17:25:00",
+    "message_id": "20460605_21_026",
+    "agent_id": "legal_agent",
+    "channel": "personal_post",
+    "content": "\"As TenantThread's privacy counsel, I can confirm: CivicLoom Realty Partners and TenantThread have entered into a definitive merger agreement to create HarborCrest ResidentEdge. Today's seven governance reforms — independent audit, enhanced consent, role-based access controls, score transparency, and operator suspensions — were not a response to the merger. They were the foundation for it. Privacy-forward platform governance is the business model going forward. Full details on TenantThread's official Flex account now. #HarborCrest #TenantThread #CivicLoom\"",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/21/communications/25"
+  },
+  {
+    "kind": "正式解禁记录",
+    "timestamp": "2046-06-05T18:00:00",
+    "message_id": "20460605_22_001",
+    "agent_id": "legal_agent",
+    "channel": "comms_huddle",
+    "content": "Embargo formally lifted 6:00 PM. @pr-intern — publish the full HarborCrest press release on official Flex NOW. @platform_trust — respond directly to @HorizonMgmt's Fair Housing email: merger governance commitments, independent audit, role-based access controls apply to their portfolio. Today's seven reforms are the frame. Execute.",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/22/communications/0"
+  }
+]

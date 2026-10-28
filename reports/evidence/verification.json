@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "raw_messages": 912,
+  "source_examples": 4,
+  "round_windows": 23,
+  "tables": 8,
+  "additional_figures": 14,
+  "word_figures": 21,
+  "word_tables": 16
+}

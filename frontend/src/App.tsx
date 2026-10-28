@@ -1,82 +1,228 @@
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import type {EChartsOption} from 'echarts';
-import {Activity,ArrowUpRight,CheckCheck,ChevronRight,Database,Filter,GitBranch,Layers3,LayoutDashboard,RefreshCw,Search,ShieldAlert,Workflow,X} from 'lucide-react';
 import Chart from './Chart';
-import type {Data,Evidence,Message} from './types';
+import type {Data} from './types';
 
-const colors=['#a4a0ff','#4ddbb5','#62b8f5','#f6bf69','#e78fc7','#8cbea1','#c4a6f8'];
-const channelNames:Record<string,string>={comms_huddle:'团队讨论',one_on_one_chat:'一对一',side_huddle:'侧边讨论',official_post:'官方公开',personal_post:'个人公开',anonymous_post:'匿名公开'};
-const ruleNames:Record<string,string>={rate_surge:'消息速率跃升',new_public_channel:'首次使用公开渠道',named_public_before_formal_lift:'正式解禁前实体公开',named_public_topic:'公开敏感主题线索',decision_during_unavailability:'人员不可用时的决策'};
-const date=(s:string)=>s.replace('T',' ');
-const short=(s:string)=>s.slice(5,10)+' '+s.slice(11,16);
-const titleStyle={color:'#8e9cb2',fontSize:11};
-const grid={left:110,right:25,top:20,bottom:60};
-const common={backgroundColor:'transparent',textStyle:{fontFamily:'system-ui',color:'#9aa8bd'},animation:false} as const;
-type Item=Evidence & {candidate?:string;supporting?:string[]};
+const colors = ['#a4a0ff', '#4ddbb5', '#62b8f5', '#f6bf69', '#e78fc7', '#8cbea1', '#c4a6f8'];
+const channelNames: Record<string, string> = {
+  comms_huddle: '团队讨论',
+  one_on_one_chat: '一对一',
+  side_huddle: '侧边讨论',
+  official_post: '官方公开',
+  personal_post: '个人公开',
+  anonymous_post: '匿名公开',
+};
+const metricNames: Record<string, string> = {
+  message_count: '消息数量',
+  external_count: '外部发布',
+  candidate_count: '异常候选',
+};
+const shortTime = (value: string) => `${value.slice(5, 10)} ${value.slice(11, 16)}`;
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, char => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+}[char]!));
+const common = {
+  backgroundColor: 'transparent',
+  textStyle: {fontFamily: 'system-ui', color: '#9aa8bd'},
+  animation: false,
+} as const;
 
-export default function App(){
- const [data,setData]=useState<Data|null>(null),[error,setError]=useState('');
- const [start,setStart]=useState(''),[end,setEnd]=useState(''),[agent,setAgent]=useState('all'),[channel,setChannel]=useState('all'),[query,setQuery]=useState('');
- const [metric,setMetric]=useState('message_count'),[relation,setRelation]=useState('all'),[selectedAgent,setSelectedAgent]=useState(''),[selected,setSelected]=useState<Item|null>(null),[subset,setSubset]=useState<string[]|null>(null);
- const [subsetLabel,setSubsetLabel]=useState('图表选择');
- const [listMode,setListMode]=useState('evidence'),[page,setPage]=useState(0),[qualityOpen,setQualityOpen]=useState(false),[nav,setNav]=useState('overview');
- useEffect(()=>{fetch('/api/dashboard').then(async r=>{if(!r.ok)throw new Error(`API ${r.status}：请先生成数据并启动后端`);return r.json()}).then((d:Data)=>{setData(d);setStart(d.profile.start);setEnd(d.profile.end)}).catch(e=>setError(String(e)))},[]);
- useEffect(()=>{setSubset(null);setSelected(null);setPage(0);setSelectedAgent('')},[start,end,agent,channel,query]);
- const filtered=useMemo(()=>data?.messages.filter(m=>m.timestamp>=start&&m.timestamp<=end&&(agent==='all'||m.agent_id===agent)&&(channel==='all'||m.channel===channel)&&(!query||m.content.toLowerCase().includes(query.toLowerCase())))||[],[data,start,end,agent,channel,query]);
- const visibleIds=useMemo(()=>new Set(filtered.map(m=>m.message_id)),[filtered]);
- const candidates=useMemo(()=>data?.candidates.filter(c=>c.supporting_message_ids.some(id=>visibleIds.has(id)))||[],[data,visibleIds]);
- const edges=useMemo(()=>data?.communication_edges.filter(e=>visibleIds.has(e.message_id)&&e.temporal_valid&&(relation==='all'||e.relation===relation))||[],[data,visibleIds,relation]);
- const items=useMemo(()=>{
-  if(!data)return [];
-  let rows:Item[]=[];
-  if(listMode==='candidates') rows=candidates.filter(c=>!subset||c.supporting_message_ids.some(id=>subset.includes(id))).map(c=>{const m=data.messages.find(m=>m.message_id===c.supporting_message_ids.find(id=>visibleIds.has(id)&&(!subset||subset.includes(id))))!;return {...asItem(m),evidence_id:c.candidate_id,kind:'candidate',supporting:c.supporting_message_ids,content:m.content,candidate:(c.candidate_unit==='round'?'整轮候选（首条仅作定位） · ':'')+c.rule}});
-  else if(listMode==='messages')rows=filtered.map(asItem);
-  else rows=data.evidence.filter(e=>e.timestamp>=start&&e.timestamp<=end&&(agent==='all'||e.agent_id===agent)&&(channel==='all'||e.channel===channel)&&(!query||e.content.toLowerCase().includes(query.toLowerCase())));
-  if(subset)rows=rows.filter(i=>i.supporting?i.supporting.some(id=>subset.includes(id)):i.message_id&&subset.includes(i.message_id));
-  return rows.sort((a,b)=>a.timestamp.localeCompare(b.timestamp)||a.evidence_id.localeCompare(b.evidence_id));
- },[data,filtered,candidates,listMode,start,end,agent,channel,query,subset]);
- if(error)return <div className="empty"><ShieldAlert size={32}/><h2>数据服务暂不可用</h2><p>{error}</p><code>python scripts/preprocess.py<br/>uvicorn backend.app.main:app --port 8000</code><button onClick={()=>location.reload()}>重试</button></div>;
- if(!data)return <div className="empty"><Activity className="spin"/><h2>正在载入官方 MC1 数据…</h2></div>;
- const label=(id:string)=>data.agents.find(a=>a.agent_id===id)?.label.replace('-Agent','')||id;
- const rounds=data.rounds.filter(r=>r.timestamp<=end&&(data.rounds[r.round_index+1]?.timestamp||data.profile.end)>=start);
- const agentRows=agent==='all'?data.agents:data.agents.filter(a=>a.agent_id===agent);
- const heatValues=agentRows.flatMap((a,yi)=>rounds.map((r,xi)=>{
-  const batch=filtered.filter(m=>m.agent_id===a.agent_id&&m.round_index===r.round_index);
-  const value=metric==='candidate_count'?candidates.filter(c=>c.agent_id===a.agent_id&&c.round_index===r.round_index).length:metric==='external_count'?batch.filter(m=>m.scope==='external').length:batch.length;
-  return [xi,yi,value];
- }));
- const heatOption:EChartsOption={...common,grid:{...grid,bottom:76},tooltip:{position:'top'},xAxis:{type:'category',data:rounds.map(r=>short(r.timestamp)),axisLabel:{rotate:48,fontSize:9},axisLine:{show:false},axisTick:{show:false},splitArea:{show:true}},yAxis:{type:'category',data:agentRows.map(a=>label(a.agent_id)),axisLabel:{fontSize:10},axisLine:{show:false},axisTick:{show:false}},visualMap:{min:0,max:Math.max(1,...heatValues.map(x=>x[2])),calculable:false,orient:'horizontal',left:'center',bottom:0,inRange:{color:['#192332','#47457d','#8d82e8','#d4c6ff']},textStyle:titleStyle,itemHeight:90,itemWidth:8},series:[{type:'heatmap',data:heatValues,itemStyle:{borderColor:'#111c2a',borderWidth:3,borderRadius:3},emphasis:{itemStyle:{borderColor:'#bcb5ff',borderWidth:2}},label:{show:false}}]};
- const aggregate=new Map<string,{source:string;target:string;value:number;ids:string[];risk:boolean;relations:Set<string>}>();
- for(const e of edges){if(e.source===e.target)continue;const key=e.source+'>'+e.target;const old=aggregate.get(key)||{source:e.source,target:e.target,value:0,ids:[],risk:false,relations:new Set<string>()};old.value++;old.ids.push(e.message_id);old.risk||=candidates.some(c=>c.supporting_message_ids.includes(e.message_id));old.relations.add(e.relation);aggregate.set(key,old)}
- const active=new Set([...filtered.map(m=>m.agent_id),...edges.flatMap(e=>[e.source,e.target])]);
- const graph:EChartsOption={...common,tooltip:{trigger:'item'},series:[{type:'graph',layout:'circular',circular:{rotateLabel:false},roam:true,draggable:true,edgeSymbol:['none','arrow'],edgeSymbolSize:6,label:{show:true,position:'bottom',color:'#c1cad9',fontSize:10},emphasis:{focus:'adjacency',lineStyle:{width:4}},data:data.agents.filter(a=>active.has(a.agent_id)).map((a,i)=>({id:a.agent_id,name:label(a.agent_id),value:filtered.filter(m=>m.agent_id===a.agent_id).length,symbolSize:30+Math.sqrt(filtered.filter(m=>m.agent_id===a.agent_id).length)*2.2,itemStyle:{color:colors[i],borderColor:candidates.some(c=>c.agent_id===a.agent_id)?'#f7c27a':'#243348',borderWidth:2}})),links:[...aggregate.values()].map(e=>({...e,lineStyle:{color:e.risk?'#ba9267':'#53617d',opacity:.45,width:Math.min(5,1+Math.log1p(e.value)/2),curveness:e.source<e.target?.06:.18},label:{show:false}}))}]};
- const counts=Object.entries(channelNames).map(([c,name],i)=>({name,value:filtered.filter(m=>m.channel===c).length,itemStyle:{color:colors[i]}}));
- const donut:EChartsOption={...common,tooltip:{trigger:'item'},legend:{orient:'vertical',right:5,top:'center',textStyle:titleStyle,itemWidth:7,itemHeight:7},series:[{type:'pie',radius:['55%','78%'],center:['28%','50%'],label:{show:false},itemStyle:{borderColor:'#131e2c',borderWidth:3,borderRadius:3},data:counts}]};
- const timeline:EChartsOption={...common,grid:{left:50,right:25,top:16,bottom:40},tooltip:{trigger:'item'},xAxis:{type:'time',axisLabel:{color:'#7b8aa1',fontSize:10},splitLine:{show:false}},yAxis:{type:'category',data:['外部事件','内部消息','公开消息','异常候选'],axisLabel:{fontSize:10},splitLine:{show:true,lineStyle:{color:'#203044'}},axisLine:{show:false}},series:[{type:'scatter',symbolSize:7,data:[...data.events.filter(e=>e.timestamp>=start&&e.timestamp<=end&&agent==='all'&&channel==='all'&&(!query||e.content.toLowerCase().includes(query.toLowerCase()))).map(e=>({value:[e.timestamp,0],itemStyle:{color:'#5c8fb8'},item:{evidence_id:e.event_id,kind:'environment',...e}})),...filtered.map(m=>({value:[m.timestamp,m.scope==='external'?2:1],itemStyle:{color:m.scope==='external'?'#51d1b0':'#a19ae9'},item:asItem(m)})),...candidates.map(c=>({value:[data.messages.find(m=>m.message_id===c.supporting_message_ids.find(id=>visibleIds.has(id)))!.timestamp,3],itemStyle:{color:'#f4bf73'},item:{...asItem(data.messages.find(m=>m.message_id===c.supporting_message_ids.find(id=>visibleIds.has(id)))!),kind:'candidate',candidate:c.rule}}))]}]};
- const selectedMessage=selected?.message_id?data.messages.find(m=>m.message_id===selected.message_id):undefined;
- const states=selectedMessage?data.internal_states.filter(s=>s.message_id===selectedMessage.message_id):[];
- const selectedCandidates=selectedMessage?data.candidates.filter(c=>c.supporting_message_ids.includes(selectedMessage.message_id)):[];
- const agentProfile=data.agents.find(a=>a.agent_id===selectedAgent);
- function reset(){setStart(data!.profile.start);setEnd(data!.profile.end);setAgent('all');setChannel('all');setQuery('');setSubset(null);setSelected(null);setPage(0)}
- function jump(id:string){setNav(id);document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
- function chooseGroup(ids:string[],description='图表选择'){setSubsetLabel(description);setSubset([...new Set(ids)]);setListMode('messages');setPage(0);setSelected(null)}
- return <div className="app">
-  <aside className="sidebar"><a className="brand" href="#" onClick={e=>{e.preventDefault();jump('overview')}}><div className="brand-icon"><Workflow size={23}/></div><div>HARBOR<span>Evidence Lab</span></div></a><div className="workspace">课程研究工作区 <span>MC1</span></div><div className="nav-caption">ANALYSIS</div><nav>{[["overview","分析总览",LayoutDashboard],["behavior","行为矩阵",Activity],["network","通信网络",GitBranch],["evidence","事件与证据",Layers3]].map(([id,name,Icon])=><button key={String(id)} className={nav===id?'active':''} onClick={()=>jump(String(id))}>{typeof Icon!=='string'&&<Icon size={17}/>}<span>{String(name)}</span>{nav===id&&<ChevronRight size={14}/>}</button>)}</nav><div className="nav-caption">DATA MANAGEMENT</div><button className="data-nav" onClick={()=>setQualityOpen(true)}><Database size={17}/>数据质量审计 <span className="dot amber"/></button><div className="sidebar-bottom"><span className="official"><span className="dot"/>官方数据已载入</span><p>IEEE VAST Challenge 2026<br/>Mini-Challenge 1</p><span className="version">PHASE 01 <span>v0.1.0</span></span></div></aside>
-  <main><header><div className="breadcrumb">工作区 <ChevronRight size={13}/> VAST 2026 MC1 <ChevronRight size={13}/><b>分析总览</b></div><span className="header-status"><span className="dot"/>本地数据服务</span></header>
-  <div className="content"><section className="page-title" id="overview"><div><div className="eyebrow">MULTI-AGENT BEHAVIOR ANALYTICS</div><h1>Agent 异常行为与信息传播</h1><p>从协作轨迹发现风险信号，沿真实记录追溯 HarborCrest 信息路径。</p></div><button className="secondary" onClick={()=>setQualityOpen(true)}><CheckCheck size={15}/> 数据审计 <ArrowUpRight size={14}/></button></section>
-  <div className="dataset-line"><span className="tag">OFFICIAL DATA</span><span>MC1_final_00.json</span><i/>时间未指定时区 · 保留模拟原始时间<i/>原始消息全部可追溯</div>
-  <div className="kpis"><KPI title="活跃 AGENT" value={new Set(filtered.map(m=>m.agent_id)).size} sub={`共 ${data.profile.agent_count} 个记录角色`} icon={<Workflow size={18}/>}/><KPI title="通信消息" value={filtered.length.toLocaleString()} sub={`全部 ${data.profile.message_count.toLocaleString()} 条 · 当前筛选`} icon={<Layers3 size={18}/>}/><KPI title="异常候选" value={candidates.length} sub="启发式规则 · 待人工核验" icon={<ShieldAlert size={18}/>} warning/><KPI title="观测时间范围" value={`${short(start)} — ${short(end)}`} sub={`${rounds.length} 个非等间隔轮次 · 2046 年`} icon={<Activity size={18}/>} small/></div>
-  <section className="filters"><div className="filter-label"><Filter size={15}/>分析范围</div><label>起始时间<input aria-label="起始时间" type="datetime-local" step="1" value={start} min={data.profile.start} max={end} onChange={e=>{if(e.target.value&&e.target.value<=end)setStart(e.target.value.length===16?e.target.value+':00':e.target.value)}}/></label><span className="range-dash">—</span><label>结束时间<input aria-label="结束时间" type="datetime-local" step="1" value={end} min={start} max={data.profile.end} onChange={e=>{if(e.target.value&&e.target.value>=start)setEnd(e.target.value.length===16?e.target.value+':00':e.target.value)}}/></label><label>发送者<select aria-label="角色筛选" value={agent} onChange={e=>setAgent(e.target.value)}><option value="all">全部 Agent</option>{data.agents.map(a=><option key={a.agent_id} value={a.agent_id}>{label(a.agent_id)}</option>)}</select></label><label>通信渠道<select aria-label="渠道筛选" value={channel} onChange={e=>setChannel(e.target.value)}><option value="all">全部渠道</option>{Object.entries(channelNames).map(([k,v])=><option key={k} value={k}>{v}</option>)}</select></label><button title="重置筛选" className="reset" onClick={reset}><RefreshCw size={16}/></button><div className="search"><Search size={15}/><input aria-label="搜索消息" placeholder="搜索消息关键词…" value={query} onChange={e=>setQuery(e.target.value)}/></div></section>
-  <div className="chart-grid"><section className="panel heat-panel" id="behavior"><div className="panel-head"><div><h2><span className="section-no">01</span>Agent × 时间行为矩阵</h2><p>按轮次顺序排列，列宽不代表时长 · 点击单元格查阅消息</p></div><select aria-label="热力图指标" value={metric} onChange={e=>setMetric(e.target.value)}><option value="message_count">消息数量</option><option value="external_count">外部发布</option><option value="candidate_count">异常候选</option></select></div><Chart option={heatOption} height={310} onClick={p=>{if(p.componentType==='series'){const r=rounds[p.value[0]],a=agentRows[p.value[1]];const batch=filtered.filter(m=>m.round_index===r.round_index&&m.agent_id===a.agent_id&&(metric!=='external_count'||m.scope==='external')&&(metric!=='candidate_count'||candidates.some(c=>c.supporting_message_ids.includes(m.message_id))));chooseGroup(batch.map(m=>m.message_id));setSelectedAgent(a.agent_id);jump('evidence')}}}/><div className="panel-foot"><span className="dot lavender"/>相邻轮次间隔 1–72 小时，时长详见轮次上下文。<span>{metric==='candidate_count'?'规则命中次数':'记录条数'}</span></div></section>
-  <section className="panel" id="network"><div className="panel-head"><div><h2><span className="section-no">02</span>Agent 通信网络</h2><p>记录关系 ≠ 已证实的信息传播</p></div><select aria-label="关系类型" value={relation} onChange={e=>setRelation(e.target.value)}><option value="all">收件 + 回复</option><option value="recipient">指定收件人</option><option value="reply">有效时间回复</option></select></div><Chart option={graph} height={310} onClick={p=>{if(p.dataType==='node'){setSelectedAgent(p.data.id);chooseGroup(filtered.filter(m=>m.agent_id===p.data.id).map(m=>m.message_id))}else if(p.dataType==='edge'){chooseGroup(p.data.ids,label(p.data.source)+' → '+label(p.data.target));setSelectedAgent('')}}}/><div className="panel-foot"><span className="dot amber"/>金色边：含异常候选消息<span>{aggregate.size} 组有向关系</span></div></section>
-  <section className="panel" id="timeline"><div className="panel-head"><div><h2><span className="section-no">03</span>事件时间轴</h2><p>按真实时间定位 · 点击事件点查看原始证据</p></div><span className="badge">真实时间</span></div><Chart option={timeline} height={200} onClick={p=>{if(p.data?.item){setSelected(p.data.item);jump('evidence')}}}/></section>
-  <section className="panel"><div className="panel-head"><div><h2><span className="section-no">04</span>通信渠道分布</h2><p>公开发布 {filtered.filter(m=>m.scope==='external').length} 条 / 全部 {filtered.length} 条</p></div></div><Chart option={donut} height={200} onClick={p=>{const c=Object.keys(channelNames).find(c=>channelNames[c]===p.name);if(c)setChannel(c)}}/></section></div>
-  <section className="milestones"><div><span className="tag">EVIDENCE ANCHORS</span><span>关键记录</span></div><button onClick={()=>{const e=data.evidence_summary.first_topic_record;if(e)setSelected(e)}}><small>最早主题线索 · 含推测性内部状态</small><b>{short(data.evidence_summary.first_topic_record?.timestamp||'')}</b><ArrowUpRight size={14}/></button><button onClick={()=>{const m=data.evidence_summary.first_named_public;if(m)setSelected(asItem(m))}}><small>最早实体公开消息 · 非违规定论</small><b>{short(data.evidence_summary.first_named_public?.timestamp||'')}</b><ArrowUpRight size={14}/></button><button onClick={()=>{const m=data.evidence_summary.formal_lift;if(m)setSelected(asItem(m))}}><small>明确记载正式解禁</small><b>{short(data.evidence_summary.formal_lift?.timestamp||'')}</b><ArrowUpRight size={14}/></button></section>
-  <section className="evidence-layout" id="evidence"><div className="panel evidence-list"><div className="panel-head"><div><h2>记录与证据</h2><p>{subset?`图表选中 ${subset.length} 条消息`:`当前范围 ${items.length} 条记录`}</p></div><div className="segmented">{[['evidence','主题证据'],['messages','消息'],['candidates','异常候选']].map(([v,l])=><button className={listMode===v?'active':''} onClick={()=>{setListMode(v);setPage(0)}} key={v}>{l}</button>)}</div></div>{subset&&<div className="selection-bar">已联动筛选 · {subsetLabel} · {subset.length} 条消息 <button onClick={()=>{setSubset(null);setPage(0)}}>清除 <X size={12}/></button></div>}<div className="record-table"><div className="table-label"><span>时间 / 角色</span><span>内容摘要</span></div>{items.slice(page*8,page*8+8).map((item)=><button className={'record '+(selected?.evidence_id===item.evidence_id?'chosen':'')} key={item.evidence_id} onClick={()=>setSelected(item)}><div><time>{short(item.timestamp)}</time><span>{item.agent_id?label(item.agent_id):'外部环境'}</span></div><div><span className={'record-kind '+(item.kind==='candidate'?'risk':'')}>{item.kind==='candidate'?'异常候选':item.kind==='public_message'?'公开消息':item.kind==='internal_state'?'内部状态':item.kind==='environment'?'外部事件':'内部消息'}</span><p>{item.content.slice(0,125)}</p></div><ChevronRight size={14}/></button>)}{items.length===0&&<div className="no-results">当前筛选没有记录。可清除图表选择或重置筛选。</div>}</div><div className="pagination"><span>共 {items.length} 条 · 第 {page+1} / {Math.max(1,Math.ceil(items.length/8))} 页</span><button disabled={page===0} onClick={()=>setPage(page-1)}>上一页</button><button disabled={(page+1)*8>=items.length} onClick={()=>setPage(page+1)}>下一页</button></div></div>
-  <aside className="panel detail"><div className="panel-head"><h2>证据详情</h2><span className="badge">SOURCE RECORD</span></div>{selected?<><div className="detail-meta"><span>{selected.kind==='candidate'?'异常候选 · 待核验':selected.kind==='internal_state'?'内部状态记录':'事实记录 · 不等同因果'}</span><time>{date(selected.timestamp)}</time></div><h3>{selected.agent_id?label(selected.agent_id):'外部环境'}</h3><dl><dt>消息 / 事件 ID</dt><dd>{selected.message_id||selected.evidence_id}</dd><dt>渠道</dt><dd>{selected.channel?channelNames[selected.channel]||selected.channel:'环境上下文（轮次精度）'}</dd><dt>轮次</dt><dd>R{String(selected.round_index+1).padStart(2,'0')} · {data.rounds[selected.round_index]?.headline}</dd></dl><div className="original-text">{selected.content}</div>{selected.candidate&&<div className="rule-text">触发规则：{selected.candidate}</div>}{selectedCandidates.map(c=><div className="rule-text" key={c.candidate_id}><b>{ruleNames[c.type]||c.type} · {c.risk_score}/100 {c.candidate_unit==='round'?'· 整轮聚合':''}</b><p>{c.rule}</p>{c.candidate_unit==='round'&&<p>该轮支持 {c.supporting_message_ids.length} 条消息；当前消息用于定位，并非单独触发异常。</p>}<small>启发式优先级分数，不是泄露概率。</small></div>)}{states.map(s=><details key={s.state_id}><summary>内部状态 · {s.state_type}</summary><p>{s.content}</p></details>)}{selectedMessage?.responding_to&&<div className="reply-link">回复引用：{selectedMessage.responding_to}<button onClick={()=>{const m=data.messages.find(m=>m.message_id===selectedMessage.responding_to);if(m)setSelected(asItem(m))}} disabled={!data.messages.some(m=>m.message_id===selectedMessage.responding_to)}>查看引用</button>{data.quality.issue_counts&&data.communication_edges.some(e=>e.message_id===selectedMessage.message_id&&!e.temporal_valid)&&<p className="warning-text">未来引用，已排除出默认网络与传播线索。</p>}</div>}<details><summary>关联轮次外部事件</summary>{data.events.filter(e=>e.round_index===selected.round_index).map(e=><p key={e.event_id}>{e.type}: {e.content}</p>)}</details><div className="source-path">数据来源<br/>{selected.source_file}<br/>{selected.json_pointer}</div></>:agentProfile?<><div className="profile-hero"><Workflow size={28}/><h3>{label(agentProfile.agent_id)}</h3><p>{agentProfile.role}</p></div><dl><dt>当前筛选消息</dt><dd>{filtered.filter(m=>m.agent_id===selectedAgent).length}</dd><dt>全部消息</dt><dd>{agentProfile.message_count}</dd><dt>外部发布占比</dt><dd>{(agentProfile.external_ratio*100).toFixed(1)}%</dd><dt>通信对象</dt><dd>{agentProfile.contact_count}</dd><dt>全窗口平均速率</dt><dd>{agentProfile.messages_per_window_hour.toFixed(2)} 条/小时</dd><dt>全部异常候选</dt><dd>{agentProfile.candidate_count}</dd></dl><p className="detail-hint">以上画像为全样本统计；左侧列表为当前范围消息。</p></>:<div className="detail-empty"><Layers3 size={32}/><h3>每个发现，都有出处</h3><p>点击热力图、网络节点、关系边或时间轴，选择一条记录查看原文、内部状态和来源。</p></div>}</aside></section>
-  <footer>VAST 2026 MC1 · 课程研究原型 <span>事实记录 / 回复推断 / 未确定关系分层呈现 · 规则分数不代表泄露概率</span></footer></div></main>
-  {qualityOpen&&<div className="modal-backdrop" onClick={()=>setQualityOpen(false)}><section className="modal" onClick={e=>e.stopPropagation()}><button className="modal-close" onClick={()=>setQualityOpen(false)} aria-label="关闭审计"><X/></button><Database size={28}/><h2>官方数据质量审计</h2><p>原始记录不改写、不按语义猜测重归属。未来引用及无效引用保留审计，避免形成错误证据链。</p><div className="audit-rows">{Object.entries(data.quality.issue_counts).map(([k,v])=><div key={k}><span>{k==='future_reply_reference'?'指向未来时间的回复引用':k==='invalid_reply_reference'?'无法解析为消息ID的回复字段':k}</span><b>{v}</b></div>)}<div><span>空接收人（不推定无受众）</span><b>{data.quality.empty_recipients}</b></div></div><p>规范化保留全部 {data.profile.message_count} 条消息；广播 ALL 不扩展为已读边，网络箭头表示发送者 → 收件人/被回复者。自回复保留审计，网络隐藏自环。</p><p>关键限制：在正式解禁标记前公开，仍需核验双边同意等上下文，不能直接认定违规泄露。</p><button className="primary" onClick={()=>setQualityOpen(false)}>返回分析台</button></section></div>}
- </div>
+export default function App() {
+  const [data, setData] = useState<Data | null>(null);
+  const [error, setError] = useState('');
+  const [metric, setMetric] = useState('message_count');
+  const [relation, setRelation] = useState('all');
+
+  useEffect(() => {
+    fetch('/api/dashboard')
+      .then(async response => {
+        if (!response.ok) throw new Error(`数据服务返回 ${response.status}`);
+        return response.json();
+      })
+      .then(setData)
+      .catch(reason => setError(String(reason)));
+  }, []);
+
+  const edges = useMemo(() => data?.communication_edges.filter(edge =>
+    edge.temporal_valid && edge.source !== edge.target &&
+    (relation === 'all' || edge.relation === relation)
+  ) || [], [data, relation]);
+
+  if (error) return <main className="status"><h1>数据暂不可用</h1><p>{error}</p><button onClick={() => location.reload()}>重新加载</button></main>;
+  if (!data) return <main className="status">正在加载图表…</main>;
+
+  const label = (id: string) => data.agents.find(agent => agent.agent_id === id)?.label.replace('-Agent', '') || id;
+  const heatValues = data.agents.flatMap((agent, agentIndex) =>
+    data.rounds.map((round, roundIndex) => {
+      const messages = data.messages.filter(message => message.agent_id === agent.agent_id && message.round_index === round.round_index);
+      const value = metric === 'candidate_count'
+        ? data.candidates.filter(candidate => candidate.agent_id === agent.agent_id && candidate.round_index === round.round_index).length
+        : metric === 'external_count'
+          ? messages.filter(message => message.scope === 'external').length
+          : messages.length;
+      return [roundIndex, agentIndex, value];
+    })
+  );
+  const heatOption: EChartsOption = {
+    ...common,
+    grid: {left: 112, right: 20, top: 24, bottom: 92},
+    tooltip: {
+      position: 'top',
+      formatter: (params: any) => {
+        const [roundIndex, agentIndex, value] = params.value;
+        return `${escapeHtml(label(data.agents[agentIndex].agent_id))}<br/>${data.rounds[roundIndex].timestamp.replace('T', ' ')}<br/>${metricNames[metric]}：${value}`;
+      },
+    },
+    xAxis: {
+      type: 'category',
+      data: data.rounds.map(round => shortTime(round.timestamp)),
+      axisLabel: {rotate: 48, fontSize: 10},
+      axisLine: {show: false},
+      axisTick: {show: false},
+    },
+    yAxis: {
+      type: 'category',
+      data: data.agents.map(agent => label(agent.agent_id)),
+      axisLabel: {fontSize: 11},
+      axisLine: {show: false},
+      axisTick: {show: false},
+    },
+    visualMap: {
+      min: 0,
+      max: Math.max(1, ...heatValues.map(value => value[2])),
+      orient: 'horizontal',
+      left: 'center',
+      bottom: 5,
+      inRange: {color: ['#192332', '#47457d', '#8d82e8', '#d4c6ff']},
+      textStyle: {color: '#8e9cb2'},
+      itemHeight: 110,
+      itemWidth: 9,
+    },
+    series: [{
+      type: 'heatmap',
+      data: heatValues,
+      itemStyle: {borderColor: '#131e2c', borderWidth: 3, borderRadius: 3},
+      emphasis: {itemStyle: {borderColor: '#bcb5ff', borderWidth: 2}},
+    }],
+  };
+
+  const candidateMessageIds = new Set(data.candidates.flatMap(candidate => candidate.supporting_message_ids));
+  const aggregate = new Map<string, {source: string; target: string; value: number; risk: boolean}>();
+  for (const edge of edges) {
+    const key = `${edge.source}>${edge.target}`;
+    const entry = aggregate.get(key) || {source: edge.source, target: edge.target, value: 0, risk: false};
+    entry.value++;
+    entry.risk ||= candidateMessageIds.has(edge.message_id);
+    aggregate.set(key, entry);
+  }
+  const graphOption: EChartsOption = {
+    ...common,
+    tooltip: {trigger: 'item'},
+    series: [{
+      type: 'graph',
+      layout: 'circular',
+      circular: {rotateLabel: false},
+      roam: true,
+      draggable: true,
+      edgeSymbol: ['none', 'arrow'],
+      edgeSymbolSize: 6,
+      label: {show: true, position: 'bottom', color: '#c1cad9', fontSize: 11},
+      emphasis: {focus: 'adjacency', lineStyle: {width: 4}},
+      data: data.agents.map((agent, index) => ({
+        id: agent.agent_id,
+        name: label(agent.agent_id),
+        value: agent.message_count,
+        symbolSize: 30 + Math.sqrt(agent.message_count) * 2.2,
+        itemStyle: {
+          color: colors[index],
+          borderColor: agent.candidate_count ? '#f7c27a' : '#243348',
+          borderWidth: 2,
+        },
+      })),
+      links: [...aggregate.values()].map(edge => ({
+        ...edge,
+        lineStyle: {
+          color: edge.risk ? '#ba9267' : '#53617d',
+          opacity: .45,
+          width: Math.min(5, 1 + Math.log1p(edge.value) / 2),
+          curveness: edge.source < edge.target ? .06 : .18,
+        },
+      })),
+    }],
+  };
+
+  const timelineOption: EChartsOption = {
+    ...common,
+    grid: {left: 80, right: 24, top: 26, bottom: 44},
+    tooltip: {
+      trigger: 'item',
+      formatter: (params: any) => `${escapeHtml(params.data.timestamp.replace('T', ' '))}<br/>${escapeHtml(params.data.content.slice(0, 180))}`,
+      extraCssText: 'max-width:360px;white-space:normal;line-height:1.7;',
+    },
+    xAxis: {type: 'time', axisLabel: {fontSize: 11}, splitLine: {show: false}},
+    yAxis: {
+      type: 'category',
+      data: ['外部事件', '内部消息', '公开消息', '异常候选'],
+      axisLabel: {fontSize: 11},
+      axisLine: {show: false},
+      splitLine: {show: true, lineStyle: {color: '#203044'}},
+    },
+    series: [{
+      type: 'scatter',
+      symbolSize: 7,
+      data: [
+        ...data.events.map(event => ({value: [event.timestamp, 0], timestamp: event.timestamp, content: event.content, itemStyle: {color: '#5c8fb8'}})),
+        ...data.messages.map(message => ({value: [message.timestamp, message.scope === 'external' ? 2 : 1], timestamp: message.timestamp, content: message.content, itemStyle: {color: message.scope === 'external' ? '#51d1b0' : '#a19ae9'}})),
+        ...data.candidates.map(candidate => ({value: [candidate.timestamp, 3], timestamp: candidate.timestamp, content: candidate.rule, itemStyle: {color: '#f4bf73'}})),
+      ],
+    }],
+  };
+  const channelOption: EChartsOption = {
+    ...common,
+    tooltip: {trigger: 'item', formatter: '{b}：{c} 条（{d}%）'},
+    legend: {orient: 'vertical', right: 18, top: 'center', textStyle: {color: '#9aa8bd', fontSize: 12}, itemWidth: 8, itemHeight: 8, itemGap: 16},
+    series: [{
+      type: 'pie',
+      radius: ['48%', '72%'],
+      center: ['35%', '50%'],
+      label: {show: false},
+      itemStyle: {borderColor: '#131e2c', borderWidth: 3, borderRadius: 3},
+      data: Object.entries(channelNames).map(([channel, name], index) => ({
+        name,
+        value: data.messages.filter(message => message.channel === channel).length,
+        itemStyle: {color: colors[index]},
+      })),
+    }],
+  };
+
+  return <main className="charts-page">
+    <section className="chart-grid">
+      <section className="panel" id="behavior">
+        <div className="panel-head">
+          <div><h2>Agent × 时间行为矩阵</h2><p>按轮次比较各 Agent 的{metricNames[metric]}，颜色越深表示数量越多。</p></div>
+          <select aria-label="热力图指标" value={metric} onChange={event => setMetric(event.target.value)}>
+            {Object.entries(metricNames).map(([value, name]) => <option key={value} value={value}>{name}</option>)}
+          </select>
+        </div>
+        <Chart option={heatOption} height={340}/>
+      </section>
+      <section className="panel" id="network">
+        <div className="panel-head">
+          <div><h2>Agent 通信网络</h2><p>节点表示 Agent，箭头表示收件或回复关系。</p></div>
+          <select aria-label="关系类型" value={relation} onChange={event => setRelation(event.target.value)}>
+            <option value="all">收件 + 回复</option><option value="recipient">指定收件人</option><option value="reply">有效时间回复</option>
+          </select>
+        </div>
+        <Chart option={graphOption} height={340}/>
+      </section>
+      <section className="panel" id="timeline">
+        <div className="panel-head"><div><h2>事件时间轴</h2><p>按真实时间展示外部事件、消息和异常候选。</p></div></div>
+        <Chart option={timelineOption} height={300}/>
+      </section>
+      <section className="panel" id="channels">
+        <div className="panel-head"><div><h2>通信渠道分布</h2><p>比较不同通信渠道的消息数量与占比。</p></div></div>
+        <Chart option={channelOption} height={300}/>
+      </section>
+    </section>
+  </main>;
 }
-function asItem(m:Message):Item{return {evidence_id:m.message_id,kind:m.scope==='external'?'public_message':'internal_message',...m}}
-function KPI({title,value,sub,icon,warning=false,small=false}:{title:string;value:string|number;sub:string;icon:React.ReactNode;warning?:boolean;small?:boolean}){return <section className={'kpi '+(warning?'warning':'')}><div className="kpi-label">{title}<span>{icon}</span></div><div className={'kpi-value '+(small?'compact':'')}>{value}{warning&&<span className="candidate-tag">CANDIDATES</span>}</div><p>{sub}</p></section>}

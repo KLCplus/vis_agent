@@ -1,0 +1,32 @@
+{
+  "file": "reports/第一次作业_数据处理与中间证据.docx",
+  "sha256": "521cc163b9a0b949b5afa6aee28344e654dea42caedf5844f25d978c24ebc2db",
+  "status": "passed",
+  "rendered_pages": 21,
+  "pages_visually_reviewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "method": "使用打包 LibreOffice 渲染并逐页查看 PNG，检查中文、表格换行、图表和图注。",
+  "findings": "未发现缺字、内容裁切或表格溢出；页面截图在图注中明确标为局部。",
+  "scope": "仅对应此 SHA256 的 Word 文件。重新生成后需要重新渲染与检查。"
+}

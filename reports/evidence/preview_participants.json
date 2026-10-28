@@ -1,0 +1,35 @@
+[
+  {
+    "agent_id": "legal_agent",
+    "agent_role": "legal",
+    "agent_label": "Legal-Agent",
+    "declared_action": "",
+    "agent_round_metadata": "{\"sentiment_at_turn\": null, \"action_classification\": null}",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/participants/0"
+  },
+  {
+    "agent_id": "quality_agent",
+    "agent_role": "platform_trust",
+    "agent_label": "Platform-Trust-Agent",
+    "declared_action": "",
+    "agent_round_metadata": "{\"sentiment_at_turn\": null, \"action_classification\": null}",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/participants/1"
+  },
+  {
+    "agent_id": "pr_agent",
+    "agent_role": "pr",
+    "agent_label": "PR-Agent",
+    "declared_action": "",
+    "agent_round_metadata": "{\"sentiment_at_turn\": null, \"action_classification\": null}",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/participants/2"
+  }
+]

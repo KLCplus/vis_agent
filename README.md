@@ -78,7 +78,7 @@ npm run dev
 
 打开 [工作台](http://127.0.0.1:5173)、[API 文档](http://127.0.0.1:8000/docs)。前端开发服务器代理 `/api` 到本机 8000 端口。后端缺少生成文件时返回 503 并给出重建命令。
 
-已实现：总览 KPI、渠道分布；三指标热力图及单元格消息联动；节点/边点击、角色/渠道/时间/关系类型筛选；真实时间事件轴；分页记录；原文、内部状态、来源 JSON Pointer 与质量审计。全局角色筛选只查看该发送者发出的消息，收件人关联消息不包含在内；整轮候选在任一支持消息通过筛选时显示。节点画像为全样本，消息列表为当前筛选范围，界面明确说明。
+当前页面仅保留四张图：Agent × 时间行为矩阵、Agent 通信网络、事件时间轴、通信渠道分布，每图配一句中文说明。图内保留热力图指标切换、网络关系类型切换、悬浮详情与网络缩放。数据处理和 API 继续提供原有标准化数据。课程材料已增加数据处理中间证据版 Word，界面以当前四图版为准。
 
 热力图按轮次顺序排列，等列宽不代表等时长；真实时间轴使用时间标度。抽样轮次间隔有 1、24、72 小时，不应将日轮次与小时轮次速率直接解释为行为异常证据。
 
@@ -103,7 +103,7 @@ cd ..
 NODE_PATH=./frontend/node_modules node tests/browser_smoke.cjs
 ```
 
-也可设置 `PLAYWRIGHT_MODULE` 为已安装的 Playwright 绝对路径，`CHROME_PATH` 为已有 Chrome 可执行文件。浏览器脚本检验实际官方数据、筛选、指标、证据、空状态、窄屏溢出并生成截图；需要两个本机服务已启动。
+也可设置 `PLAYWRIGHT_MODULE` 为已安装的 Playwright 绝对路径，`CHROME_PATH` 为已有 Chrome 可执行文件。浏览器脚本检验四张图的官方数据绑定、指标切换、关系类型和窄屏溢出并生成截图；需要两个本机服务已启动。
 
 ## 数据与产物
 
@@ -127,8 +127,23 @@ tests/              标注测试样本、真实数据一致性与浏览器验收
 
 ## 课程材料与局限
 
-[第一次作业 Word 初稿](reports/第一次作业_初稿.docx)及 [六章 Markdown](docs/01_数据下载.md)覆盖前四步和可视化后续设计。姓名、学号、课程和教师保留待填写。重建 Word：`python scripts/generate_assignment.py`；需要先生成图表，截图可选。中文图表优先使用系统 CJK 字体（本次 Arial Unicode MS），Linux 可安装 Noto Sans CJK。
+[数据处理与中间证据 Word 完善版](reports/第一次作业_数据处理与中间证据.docx)包含 21 页、21 张图和16 张表，按实验步骤保留原始与标准化对照、字段检查、引用审计、轮次时间窗和实际验证日志。[中间证据索引](reports/evidence/README.md)列出可复查文件。原[Word 初稿](reports/第一次作业_初稿.docx)与[六章 Markdown](docs/01_数据下载.md)也保留。姓名、学号、课程和教师保留待填写。重建旧版 Word 初稿：`python scripts/generate_assignment.py`；需要先生成图表，截图可选。中文图表优先使用系统 CJK 字体（本次 Arial Unicode MS），Linux 可安装 Noto Sans CJK。
 
 尚未完成：人工确证传播/因果链、授权信息核验、预期行为标注、阈值校准与误报评估、生产部署、多用户权限、Neo4j。第一阶段不调用大模型 API。参考[开源项目 README](https://github.com/keremilgaz/VAST_Challenge_2026)理解了设计，未复制代码或素材。
 
 官方数据保留原来源与使用条件，本仓库代码未替官方数据重新授权。Git 提交由 Codex 作为工具作者记录，未假冒学生身份；提交不代表团队贡献分工已填写。
+
+
+### 重建数据处理中间证据报告
+
+在下载与预处理完成后运行以下命令。图表使用真实输出，原始数据仍不入库。
+
+```bash
+python scripts/generate_figures.py
+python scripts/generate_evidence_figures.py
+python scripts/record_evidence_checks.py
+python scripts/write_evidence_report.py
+python scripts/verify_evidence.py
+```
+
+实际验证命令和输出保留在 `reports/evidence/12_verification_runs.json` 与 `.txt`。未完成前端生产构建时，完整产物检查会记录为未执行，不会伪报通过。

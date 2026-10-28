@@ -1,0 +1,306 @@
+{
+  "source": "reports/evidence/summary.json",
+  "font": "Arial Unicode MS",
+  "figures": [
+    {
+      "file": "reports/figures/evidence/11_archive.png",
+      "title": "解压文件的大小对比",
+      "totals": {
+        "MC1 原始 JSON": 987742,
+        "数据说明 Markdown": 5699,
+        "作答表 HTML": 83347,
+        "macOS 元数据合计": 6631
+      }
+    },
+    {
+      "file": "reports/figures/evidence/12_schema.png",
+      "title": "实际 JSON 的层次结构",
+      "totals": {
+        "rounds": 23,
+        "messages": 912,
+        "participants": 100
+      }
+    },
+    {
+      "file": "reports/figures/evidence/13_round_gaps.png",
+      "title": "相邻轮次起点的实际时间间隔",
+      "totals": {
+        "gaps": [
+          24.0,
+          72.0,
+          24.0,
+          24.0,
+          24.0,
+          24.0,
+          72.0,
+          24.0,
+          24.0,
+          24.0,
+          24.0,
+          72.0,
+          24.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "counts": {
+          "24.0": 10,
+          "72.0": 3,
+          "1.0": 9
+        }
+      }
+    },
+    {
+      "file": "reports/figures/evidence/14_field_quality.png",
+      "title": "缺字段 null 与空数组分别统计",
+      "totals": {
+        "agent_id": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "agent_label": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "agent_role": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "channel": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "content": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "internal_state": {
+          "missing": 0,
+          "null": 826,
+          "empty_list": 0
+        },
+        "message_id": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "message_type": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        },
+        "recipients": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 194
+        },
+        "responding_to": {
+          "missing": 0,
+          "null": 163,
+          "empty_list": 0
+        },
+        "timestamp": {
+          "missing": 0,
+          "null": 0,
+          "empty_list": 0
+        }
+      }
+    },
+    {
+      "file": "reports/figures/evidence/15_reply_quality.png",
+      "title": "回复字段的四种检查结果",
+      "totals": {
+        "时间有效引用": 309,
+        "未来引用": 174,
+        "非消息ID引用": 266,
+        "空引用": 163
+      }
+    },
+    {
+      "file": "reports/figures/evidence/16_tables.png",
+      "title": "八张标准化数据表的记录规模",
+      "totals": {
+        "messages": 912,
+        "agents": 7,
+        "events": 129,
+        "internal_states": 86,
+        "communication_edges": 898,
+        "participants": 100,
+        "rounds": 23,
+        "candidates": 69
+      }
+    },
+    {
+      "file": "reports/figures/evidence/17_internal_states.png",
+      "title": "内部状态的类型分布",
+      "totals": {
+        "deliberating": 61,
+        "reacting": 19,
+        "rationalizing": 6
+      }
+    },
+    {
+      "file": "reports/figures/evidence/18_events.png",
+      "title": "环境上下文的事件类型分布",
+      "totals": {
+        "event_narrative": 23,
+        "social_state": 17,
+        "critical_deadlines": 5,
+        "external_actor_actions": 17,
+        "media_events": 7,
+        "social_manager_alerts": 10,
+        "news": 50
+      }
+    },
+    {
+      "file": "reports/figures/evidence/19_agent_scope.png",
+      "title": "各 Agent 内部沟通与公开发布的对比",
+      "totals": {
+        "intern_agent": {
+          "internal": 29,
+          "public": 8
+        },
+        "judge_agent": {
+          "internal": 21,
+          "public": 0
+        },
+        "legal_agent": {
+          "internal": 250,
+          "public": 16
+        },
+        "pr_agent": {
+          "internal": 95,
+          "public": 6
+        },
+        "pr_intern_agent": {
+          "internal": 68,
+          "public": 16
+        },
+        "quality_agent": {
+          "internal": 178,
+          "public": 5
+        },
+        "social_media_agent": {
+          "internal": 194,
+          "public": 26
+        }
+      }
+    },
+    {
+      "file": "reports/figures/evidence/20_rules.png",
+      "title": "可解释规则生成的异常候选",
+      "totals": {
+        "new_public_channel": 4,
+        "rate_surge": 26,
+        "decision_during_unavailability": 18,
+        "named_public_before_formal_lift": 7,
+        "named_public_topic": 14
+      }
+    },
+    {
+      "file": "reports/figures/evidence/21_volume_rate.png",
+      "title": "相同的消息量与不同的时间窗口",
+      "totals": {
+        "volumes": [
+          25,
+          40,
+          38,
+          42,
+          41,
+          23,
+          23,
+          29,
+          41,
+          30,
+          31,
+          30,
+          24,
+          50,
+          50,
+          56,
+          56,
+          30,
+          45,
+          52,
+          45,
+          55,
+          56
+        ],
+        "rates": [
+          1.0416666666666667,
+          0.5555555555555556,
+          1.5833333333333333,
+          1.75,
+          1.7083333333333333,
+          0.9583333333333334,
+          0.3194444444444444,
+          1.2083333333333333,
+          1.7083333333333333,
+          1.25,
+          1.2916666666666667,
+          0.4166666666666667,
+          1.0,
+          50.0,
+          50.0,
+          56.0,
+          56.0,
+          30.0,
+          45.0,
+          52.0,
+          45.0,
+          55.0,
+          61.09090909090909
+        ]
+      }
+    },
+    {
+      "file": "reports/figures/evidence/22_key_records.png",
+      "title": "HarborCrest 关键记录的时间顺序",
+      "totals": {
+        "message_ids": [
+          "20460529_08_013",
+          "20460605_14_021",
+          "20460605_21_020",
+          "20460605_21_026",
+          "20460605_22_001"
+        ]
+      }
+    },
+    {
+      "file": "reports/figures/evidence/23_edge_example.png",
+      "title": "一条消息展开为三条指定接收人关系",
+      "totals": {
+        "message_id": "20460605_13_004",
+        "edge_count": 3,
+        "targets": [
+          "pr_agent",
+          "quality_agent",
+          "social_media_agent"
+        ]
+      }
+    },
+    {
+      "file": "reports/figures/evidence/24_message_preview.png",
+      "title": "实际标准化消息的节选",
+      "totals": {
+        "message_ids": [
+          "20460517_00_001",
+          "20460605_13_004",
+          "20460605_13_002",
+          "20460605_21_026"
+        ]
+      }
+    }
+  ]
+}

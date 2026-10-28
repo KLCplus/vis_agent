@@ -55,5 +55,7 @@
     "networkx": "3.7",
     "matplotlib": "3.11.2",
     "pytest": "9.2.0"
-  }
+  },
+  "scope": "Historical validation of the initial full workspace. The current interface has been simplified to four charts.",
+  "latest_evidence_report": "reports/evidence/verification.json"
 }

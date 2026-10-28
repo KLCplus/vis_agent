@@ -1,0 +1,12 @@
+﻿field,present,missing,null,empty_list,empty_string,types
+agent_id,912,0,0,0,0,"{""str"": 912}"
+agent_label,912,0,0,0,0,"{""str"": 912}"
+agent_role,912,0,0,0,0,"{""str"": 912}"
+channel,912,0,0,0,0,"{""str"": 912}"
+content,912,0,0,0,0,"{""str"": 912}"
+internal_state,912,0,826,0,0,"{""dict"": 86, ""NoneType"": 826}"
+message_id,912,0,0,0,0,"{""str"": 912}"
+message_type,912,0,0,0,0,"{""str"": 912}"
+recipients,912,0,0,194,0,"{""list"": 912}"
+responding_to,912,0,163,0,0,"{""NoneType"": 163, ""str"": 749}"
+timestamp,912,0,0,0,0,"{""str"": 912}"

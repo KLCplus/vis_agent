@@ -1,61 +1,53 @@
-/* Real browser checks against official-data local services. Install playwright to run. */
-const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
-(async()=>{
- const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
- const page=await browser.newPage({viewport:{width:1536,height:1100},deviceScaleFactor:1});
- const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const checks=[];
- await page.goto('http://127.0.0.1:5173');await page.getByRole('heading',{name:'Agent 异常行为与信息传播'}).waitFor();
- await page.locator('canvas').first().waitFor();await page.screenshot({path:'reports/figures/08_dashboard.png',fullPage:true});await page.screenshot({path:'reports/figures/08_dashboard_overview.png',fullPage:false});checks.push('official dashboard and four charts rendered');
- const data=await (await page.request.get('http://127.0.0.1:8000/api/dashboard')).json();
- assert.equal(await page.locator('.kpi-value').nth(1).innerText(),String(data.messages.length));
- assert.equal(Number(await page.locator('.kpi-value').nth(2).innerText().then(s=>s.replace(/[^0-9]/g,''))),data.candidates.length);
- await page.getByLabel('角色筛选').selectOption('legal_agent');
- assert.equal(await page.locator('.kpi-value').nth(1).innerText(),String(data.messages.filter(m=>m.agent_id==='legal_agent').length));checks.push('agent filter updates actual message count');
- await page.getByLabel('渠道筛选').selectOption('anonymous_post');
- assert.equal(await page.locator('.kpi-value').nth(1).innerText(),String(data.messages.filter(m=>m.agent_id==='legal_agent'&&m.channel==='anonymous_post').length));checks.push('combined channel and agent filter');
- await page.getByTitle('重置筛选').click();await page.getByLabel('搜索消息').fill('CivicLoom');
- assert.equal(await page.locator('.kpi-value').nth(1).innerText(),String(data.messages.filter(m=>m.content.toLowerCase().includes('civicloom')).length));checks.push('keyword filter');
- await page.getByTitle('重置筛选').click();
- await page.getByLabel('起始时间',{exact:true}).fill('2046-06-05T17:00');
- const expected=data.messages.filter(m=>m.timestamp>='2046-06-05T17:00:00').length;
- assert.equal(await page.locator('.kpi-value').nth(1).innerText(),String(expected));checks.push('real-time range filters messages');
- await page.getByTitle('重置筛选').click();
- await page.getByLabel('热力图指标').selectOption('external_count');await page.getByLabel('热力图指标').selectOption('candidate_count');checks.push('all heatmap metrics switch');
- await page.getByLabel('关系类型').selectOption('reply');await page.getByLabel('关系类型').selectOption('recipient');checks.push('network relation type switch');
- // Exercise ECharts clicks at pixels returned by its actual layout, not synthetic handler calls.
- await page.getByLabel('热力图指标').selectOption('message_count');
- await page.waitForFunction(()=>document.querySelector('#behavior [role=img]')?.getAttribute('_echarts_instance_'));
- const heat=await page.evaluate(async()=>{const ec=await import(performance.getEntriesByType('resource').find(r=>r.name.includes('/echarts.js?')).name);const el=document.querySelector('#behavior [role=img]');const chart=ec.getInstanceByDom(el);return chart.convertToPixel({seriesIndex:0},[0,2])});
- await page.locator('#behavior [role=img]').click({position:{x:heat[0],y:heat[1]}});
- await page.locator('.selection-bar').waitFor();assert.ok((await page.locator('.selection-bar').innerText()).includes('已联动筛选'));checks.push('heatmap cell click opens supporting messages');
- await page.locator('.selection-bar button').click();
- const graphPoint=await page.evaluate(async()=>{const ec=await import(performance.getEntriesByType('resource').find(r=>r.name.includes('/echarts.js?')).name);const chart=ec.getInstanceByDom(document.querySelector('#network [role=img]'));const series=chart.getModel().getSeriesByIndex(0);const point=series.getData().getItemLayout(0);return series.coordinateSystem.dataToPoint(point)});
- await page.locator('#network [role=img]').click({position:{x:graphPoint[0],y:graphPoint[1]}});
- await page.locator('.profile-hero').waitFor();checks.push('network node opens agent profile');
- await page.locator('.selection-bar button').click();
- const edgePoint=await page.evaluate(async()=>{const ec=await import(performance.getEntriesByType('resource').find(r=>r.name.includes('/echarts.js?')).name);const chart=ec.getInstanceByDom(document.querySelector('#network [role=img]'));const series=chart.getModel().getSeriesByIndex(0);const edge=series.getGraph().edges.find(e=>e.node1.id==='legal_agent'&&e.node2.id==='quality_agent');const line=edge.getGraphicEl().childAt(0);const point=line.pointAt(.27);return line.transformCoordToGlobal(point[0],point[1])});
- await page.locator('#network [role=img]').click({position:{x:edgePoint[0],y:edgePoint[1]}});
- await page.locator('.selection-bar').waitFor();checks.push('network edge opens supporting messages');
- const edgeIds=data.communication_edges.filter(e=>e.temporal_valid&&e.relation==='recipient'&&e.source==='legal_agent'&&e.target==='quality_agent').map(e=>e.message_id);
- const edgeCandidates=data.candidates.filter(c=>c.supporting_message_ids.some(id=>edgeIds.includes(id)));
- await page.getByRole('button',{name:'异常候选',exact:true}).click();
- assert.ok((await page.locator('.selection-bar').innerText()).includes('Legal → Platform-Trust'));assert.ok((await page.locator('.pagination span').innerText()).startsWith('共 '+edgeCandidates.length+' 条'));checks.push('edge selection retains whole-round candidates by support intersection');
- await page.getByRole('button',{name:'消息',exact:true}).click();
- await page.locator('.selection-bar button').click();
- await page.locator('.record').first().click();assert.ok((await page.locator('.source-path').innerText()).includes('/rounds/'));checks.push('evidence detail traces source pointer');
- await page.locator('.milestones button').nth(1).click();assert.ok((await page.locator('.original-text').innerText()).includes('CivicLoom'));checks.push('first public anchor opens actual message');
- await page.screenshot({path:'reports/figures/09_evidence.png',fullPage:true});
- await page.getByRole('button',{name:'数据审计',exact:true}).click();await page.getByRole('heading',{name:'官方数据质量审计'}).waitFor();assert.ok((await page.locator('.modal').innerText()).includes('266'));await page.getByLabel('关闭审计').click();checks.push('quality audit modal');
- await page.getByTitle('重置筛选').click();
- const eventPoint=await page.evaluate(async()=>{const ec=await import(performance.getEntriesByType('resource').find(r=>r.name.includes('/echarts.js?')).name);const chart=ec.getInstanceByDom(document.querySelector('#timeline [role=img]'));return chart.convertToPixel({seriesIndex:0},['2046-05-17T09:00:00',0])});
- await page.locator('#timeline [role=img]').click({position:{x:eventPoint[0],y:eventPoint[1]}});
- assert.ok((await page.locator('.source-path').innerText()).includes('/environment_context/'));checks.push('real-time event point opens original environment evidence');
- await page.getByTitle('重置筛选').click();
- await page.getByLabel('搜索消息').fill('NO_MATCH_TEST_9384');await page.getByText('当前筛选没有记录。可清除图表选择或重置筛选。').waitFor();checks.push('empty state');await page.getByTitle('重置筛选').click();
- await page.setViewportSize({width:768,height:1024});await page.screenshot({path:'reports/figures/10_tablet.png',fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));checks.push('tablet layout has no horizontal overflow');
- assert.deepEqual(errors,[]);fs.writeFileSync('reports/browser_validation.json',JSON.stringify({checks,page_errors:errors},null,2));
- await browser.close();console.log(JSON.stringify({passed:checks.length,checks},null,2));
-})().catch(e=>{console.error(e);process.exit(1)});
+/* Smoke checks for the simplified four-chart page, using official local data. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const {chromium} = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+(async () => {
+  const browser = await chromium.launch({headless: true, ...(process.env.CHROME_PATH ? {executablePath: process.env.CHROME_PATH} : {})});
+  const page = await browser.newPage({viewport: {width: 1536, height: 1100}, deviceScaleFactor: 1});
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  const checks = [];
+  await page.goto('http://127.0.0.1:5173');
+  await page.getByRole('heading', {name: 'Agent × 时间行为矩阵'}).waitFor();
+  assert.equal(await page.locator('.panel').count(), 4);
+  assert.equal(await page.locator('canvas').count(), 4);
+  assert.equal(await page.locator('nav, .kpis, .filters, .evidence-layout, footer').count(), 0);
+  checks.push('only four chart panels and brief descriptions remain');
+  const data = await (await page.request.get('http://127.0.0.1:8000/api/dashboard')).json();
+  const chartTotals = await page.evaluate(async () => {
+    const ec = await import(performance.getEntriesByType('resource').find(resource => resource.name.includes('/echarts.js?')).name);
+    const option = id => ec.getInstanceByDom(document.querySelector(`#${id} [role=img]`)).getOption();
+    return {
+      messages: option('behavior').series[0].data.reduce((sum, row) => sum + row[2], 0),
+      channels: option('channels').series[0].data.reduce((sum, row) => sum + row.value, 0),
+      agents: option('network').series[0].data.map(node => node.id),
+      timeline: option('timeline').series[0].data.length,
+    };
+  });
+  assert.equal(chartTotals.messages, data.messages.length);
+  assert.equal(chartTotals.channels, data.messages.length);
+  assert.deepEqual(chartTotals.agents.sort(), data.agents.map(agent => agent.agent_id).sort());
+  assert.equal(chartTotals.timeline, data.messages.length + data.events.length + data.candidates.length);
+  checks.push('four charts use the official message, agent and event records');
+  await page.getByLabel('热力图指标').selectOption('external_count');
+  await page.getByText('按轮次比较各 Agent 的外部发布，颜色越深表示数量越多。').waitFor();
+  await page.getByLabel('热力图指标').selectOption('candidate_count');
+  await page.getByText('按轮次比较各 Agent 的异常候选，颜色越深表示数量越多。').waitFor();
+  await page.getByLabel('热力图指标').selectOption('message_count');
+  checks.push('heatmap metrics still switch');
+  await page.getByLabel('关系类型').selectOption('reply');
+  await page.getByLabel('关系类型').selectOption('recipient');
+  await page.getByLabel('关系类型').selectOption('all');
+  checks.push('network relation types still switch');
+  await page.screenshot({path: 'reports/figures/08_dashboard.png', fullPage: true});
+  await page.screenshot({path: 'reports/figures/08_dashboard_overview.png', fullPage: false});
+  await page.setViewportSize({width: 768, height: 1024});
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
+  await page.screenshot({path: 'reports/figures/10_tablet.png', fullPage: true});
+  checks.push('narrow layout has no horizontal overflow');
+  assert.deepEqual(errors, []);
+  fs.writeFileSync('reports/browser_validation.json', JSON.stringify({checks, page_errors: errors}, null, 2));
+  await browser.close();
+  console.log(JSON.stringify({passed: checks.length, checks}, null, 2));
+})().catch(error => { console.error(error); process.exit(1); });

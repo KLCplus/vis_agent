@@ -1,0 +1,53 @@
+[
+  {
+    "candidate_id": "20460523_04_039:new_public_channel",
+    "type": "new_public_channel",
+    "timestamp": "2046-05-23T09:38:00",
+    "round_index": "4",
+    "agent_id": "social_media_agent",
+    "message_id": "20460523_04_039",
+    "risk_score": "40",
+    "risk_level": "medium",
+    "rule": "First recorded use of this public channel after ≥10 earlier messages; dataset history only",
+    "evidence": "Good week at TenantThread. The team is sharp, the content is landing, and next week is going to be even more interesting. Happy Friday everyone. #PropTech #TenantThread",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/4/communications/38",
+    "candidate_unit": "message",
+    "supporting_message_ids": "[\"20460523_04_039\"]",
+    "interpretation": "Heuristic review candidate; does not establish unauthorized disclosure."
+  },
+  {
+    "candidate_id": "20460605_13_001:rate_surge",
+    "type": "rate_surge",
+    "timestamp": "2046-06-05T09:00:00",
+    "round_index": "13",
+    "agent_id": "legal_agent",
+    "message_id": "20460605_13_001",
+    "risk_score": "45",
+    "risk_level": "medium",
+    "rule": "round rate 28.00/h > max(3 × historical median 0.25/h, 2/h); observation windows are sampled rounds",
+    "evidence": "The SaltWind piece contains factual errors about re-identification that we can correct without any embargo risk. @platform_trust — I need you to draft a factual breakdown of what controls exist. @pr — I'm greenlighting a governance commitment statement: \"enhanced consent, independent audit, role-based access.\" That language is clean. @HorizonMgmt's email is a live Fair Housing liability for *them* — we must respond to that client today or we own their exposure. Judge, does a forward-looking governance roadmap raise any concerns on your end?",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/13/communications/0",
+    "candidate_unit": "round",
+    "supporting_message_ids": "[\"20460605_13_001\", \"20460605_13_004\", \"20460605_13_007\", \"20460605_13_010\", \"20460605_13_013\", \"20460605_13_015\", \"20460605_13_017\", \"20460605_13_019\", \"20460605_13_021\", \"20460605_13_023\", \"20460605_13_025\", \"20460605_13_027\", \"20460605_13_029\", \"20460605_13_031\", \"20460605_13_033\", \"20460605_13_035\", \"20460605_13_037\", \"20460605_13_039\", \"20460605_13_041\", \"20460605_13_042\", \"20460605_13_043\", \"20460605_13_044\", \"20460605_13_045\", \"20460605_13_046\", \"20460605_13_047\", \"20460605_13_048\", \"20460605_13_049\", \"20460605_13_050\"]",
+    "interpretation": "Heuristic review candidate; does not establish unauthorized disclosure."
+  },
+  {
+    "candidate_id": "20460605_13_050:new_public_channel",
+    "type": "new_public_channel",
+    "timestamp": "2046-06-05T09:49:00",
+    "round_index": "13",
+    "agent_id": "legal_agent",
+    "message_id": "20460605_13_050",
+    "risk_score": "40",
+    "risk_level": "medium",
+    "rule": "First recorded use of this public channel after ≥10 earlier messages; dataset history only",
+    "evidence": "\"Clarification on the SaltWind reporting: the analytics scores referenced are property-level aggregates provided to portfolio operators, not individual tenant profiles. Re-identification risk arises when operators cross-reference their own property management records — which is exactly what TenantThread's newly announced access controls and consent management are designed to prevent.\"",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/13/communications/49",
+    "candidate_unit": "message",
+    "supporting_message_ids": "[\"20460605_13_050\"]",
+    "interpretation": "Heuristic review candidate; does not establish unauthorized disclosure."
+  }
+]

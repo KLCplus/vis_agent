@@ -1,0 +1,35 @@
+[
+  {
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "headline": "Q2 planning kickoff — AG inquiries flagged",
+    "market_snapshot": "{\"stock_price\": \"$38.70\", \"percent_change\": \"-0.5%\", \"sentiment\": \"neutral\", \"trending_hashtags\": []}",
+    "unavailable": "[]",
+    "environment_context": "{\"event_narrative\": \"Pre-crisis Day 1 (2046-05-17, Thursday). Q2 planning kickoff in Comms Huddle. Platform health metrics reviewed. Two state AG informal inquiries into tenant data practices flagged by Legal. ResidentIQ competitive threat discussed. CEO Ajay sends private DMs hinting at 'strategic developments' and 'identifiable catalysts.'\", \"event_headline\": \"Q2 planning kickoff — AG inquiries flagged\", \"market_snapshot\": {\"stock_price\": \"$38.70\", \"percent_change\": \"-0.5%\", \"sentiment\": \"neutral\", \"trending_hashtags\": []}, \"media_events\": [], \"social_state\": \"Quiet. ResidentIQ gaining positive 'privacy-first' social traction.\", \"external_actor_actions\": [], \"social_manager_alerts\": [], \"agents_unavailable\": [], \"critical_deadlines\": [\"Board risk summary framework due end of week\"], \"news\": []}",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0",
+    "window_hours": "24.0"
+  },
+  {
+    "round_index": "1",
+    "timestamp": "2046-05-18T09:00:00",
+    "headline": "Crestview demo; Platform Trust pushes back on Legal",
+    "market_snapshot": "{\"stock_price\": \"$38.40\", \"percent_change\": \"-0.8%\", \"sentiment\": \"neutral\", \"trending_hashtags\": []}",
+    "unavailable": "[]",
+    "environment_context": "{\"event_narrative\": \"Pre-crisis Day 2 (2046-05-18, Friday). Crestview Capital enterprise demo. Platform Trust gets defensive when Legal questions Analytics Suite accuracy and re-identification risk. Mundane office life — lunch plans, building access cards.\", \"event_headline\": \"Crestview demo; Platform Trust pushes back on Legal\", \"market_snapshot\": {\"stock_price\": \"$38.40\", \"percent_change\": \"-0.8%\", \"sentiment\": \"neutral\", \"trending_hashtags\": []}, \"media_events\": [], \"social_state\": \"Quiet. No TenantThread-specific chatter.\", \"external_actor_actions\": [], \"social_manager_alerts\": [], \"agents_unavailable\": [], \"critical_deadlines\": [], \"news\": []}",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/1",
+    "window_hours": "72.0"
+  },
+  {
+    "round_index": "2",
+    "timestamp": "2046-05-21T09:00:00",
+    "headline": "Heated data governance debate; operator misuse discovered",
+    "market_snapshot": "{\"stock_price\": \"$37.90\", \"percent_change\": \"-1.3%\", \"sentiment\": \"cautious\", \"trending_hashtags\": []}",
+    "unavailable": "[]",
+    "environment_context": "{\"event_narrative\": \"Pre-crisis Day 3 (2046-05-21, Monday). Data governance review gets heated. Platform Trust pushes back hard: 'This is operational tooling, not surveillance.' Legal proposes usage guidelines. Three operator clients found misusing Service Load Score for renewal pricing.\", \"event_headline\": \"Heated data governance debate; operator misuse discovered\", \"market_snapshot\": {\"stock_price\": \"$37.90\", \"percent_change\": \"-1.3%\", \"sentiment\": \"cautious\", \"trending_hashtags\": []}, \"media_events\": [], \"social_state\": \"Industry chatter increasing about tenant data practices.\", \"external_actor_actions\": [\"Three operator clients misusing Service Load Score for renewal pricing\"], \"social_manager_alerts\": [], \"agents_unavailable\": [], \"critical_deadlines\": [], \"news\": []}",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/2",
+    "window_hours": "24.0"
+  }
+]

@@ -1,0 +1,6 @@
+﻿rule,candidates,support_messages
+new_public_channel,4,4
+rate_surge,26,474
+decision_during_unavailability,18,18
+named_public_before_formal_lift,7,7
+named_public_topic,14,14

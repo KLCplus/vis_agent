@@ -1,0 +1,32 @@
+[
+  {
+    "event_id": "env-0-0-0",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "time_precision": "round",
+    "type": "event_narrative",
+    "content": "Pre-crisis Day 1 (2046-05-17, Thursday). Q2 planning kickoff in Comms Huddle. Platform health metrics reviewed. Two state AG informal inquiries into tenant data practices flagged by Legal. ResidentIQ competitive threat discussed. CEO Ajay sends private DMs hinting at 'strategic developments' and 'identifiable catalysts.'",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/environment_context/event_narrative"
+  },
+  {
+    "event_id": "env-0-4-0",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "time_precision": "round",
+    "type": "social_state",
+    "content": "Quiet. ResidentIQ gaining positive 'privacy-first' social traction.",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/environment_context/social_state"
+  },
+  {
+    "event_id": "env-0-8-0",
+    "round_index": "0",
+    "timestamp": "2046-05-17T09:00:00",
+    "time_precision": "round",
+    "type": "critical_deadlines",
+    "content": "Board risk summary framework due end of week",
+    "source_file": "VAST_Challenge_2026_MC1/MC1_final_00.json",
+    "json_pointer": "/rounds/0/environment_context/critical_deadlines/0"
+  }
+]

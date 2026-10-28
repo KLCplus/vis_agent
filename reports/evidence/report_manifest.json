@@ -1,0 +1,141 @@
+{
+  "file": "reports/第一次作业_数据处理与中间证据.docx",
+  "figures": 21,
+  "tables": 16,
+  "outline": [
+    "一 实验目的与实验方法",
+    "二 数据下载与原始文件检查",
+    "三 理解实际 JSON 结构",
+    "四 Agent 角色与消息规模",
+    "五 通信渠道的分布",
+    "六 轮次顺序与真实时间",
+    "七 缺失值与空值检查",
+    "八 数据过滤与保留策略",
+    "九 消息抽取前后的对照",
+    "十 接收人名称规范化与关系展开",
+    "十一 回复引用的完整性检查",
+    "十二 标准化数据表与保存结果",
+    "十三 内部状态与外部环境",
+    "十四 Agent 行为画像与速率",
+    "十五 异常候选规则与初步结果",
+    "十六 HarborCrest 关键记录核对",
+    "十七 可视化映射结果",
+    "十八 运行验证与实际页面",
+    "十九 实验中遇到的问题与小结",
+    "附录 中间证据与复查位置"
+  ],
+  "figure_sources": [
+    {
+      "number": 1,
+      "figure": "reports/figures/01_pipeline.png",
+      "caption": "从官方文件到标准化数据和图表的处理步骤"
+    },
+    {
+      "number": 2,
+      "figure": "reports/figures/evidence/11_archive.png",
+      "caption": "解压条目的大小对比"
+    },
+    {
+      "number": 3,
+      "figure": "reports/figures/evidence/12_schema.png",
+      "caption": "原始文件中的主要层次和实际记录数量"
+    },
+    {
+      "number": 4,
+      "figure": "reports/figures/02_agent_messages.png",
+      "caption": "各 Agent 发出的消息数量"
+    },
+    {
+      "number": 5,
+      "figure": "reports/figures/03_channels.png",
+      "caption": "六种真实通信渠道的消息数量"
+    },
+    {
+      "number": 6,
+      "figure": "reports/figures/evidence/13_round_gaps.png",
+      "caption": "相邻轮次起点之间的实际间隔"
+    },
+    {
+      "number": 7,
+      "figure": "reports/figures/04_temporal.png",
+      "caption": "按真实时间定位的轮次消息分布"
+    },
+    {
+      "number": 8,
+      "figure": "reports/figures/evidence/14_field_quality.png",
+      "caption": "逐字段检查缺失 null 与空数组"
+    },
+    {
+      "number": 9,
+      "figure": "reports/figures/07_filtering.png",
+      "caption": "原始消息 标准化保留与分析子集的对比"
+    },
+    {
+      "number": 10,
+      "figure": "reports/figures/evidence/23_edge_example.png",
+      "caption": "消息 20460605_13_004 生成的三条指定接收人边"
+    },
+    {
+      "number": 11,
+      "figure": "reports/figures/evidence/15_reply_quality.png",
+      "caption": "全部消息的回复字段分类结果"
+    },
+    {
+      "number": 12,
+      "figure": "reports/figures/evidence/16_tables.png",
+      "caption": "八张输出表的记录数量"
+    },
+    {
+      "number": 13,
+      "figure": "reports/figures/evidence/17_internal_states.png",
+      "caption": "非空内部状态的三种类型"
+    },
+    {
+      "number": 14,
+      "figure": "reports/figures/evidence/18_events.png",
+      "caption": "环境上下文中实际提取的事件类型"
+    },
+    {
+      "number": 15,
+      "figure": "reports/figures/evidence/19_agent_scope.png",
+      "caption": "不同 Agent 的内部消息与公开发布"
+    },
+    {
+      "number": 16,
+      "figure": "reports/figures/evidence/21_volume_rate.png",
+      "caption": "同一批轮次的消息量和按窗口时长计算的速率"
+    },
+    {
+      "number": 17,
+      "figure": "reports/figures/evidence/20_rules.png",
+      "caption": "五类规则的候选数量"
+    },
+    {
+      "number": 18,
+      "figure": "reports/figures/evidence/22_key_records.png",
+      "caption": "从内部提及到公开与正式解禁的记录顺序"
+    },
+    {
+      "number": 19,
+      "figure": "reports/figures/05_heatmap.png",
+      "caption": "Agent 与轮次对应的消息数量"
+    },
+    {
+      "number": 20,
+      "figure": "reports/figures/06_network.png",
+      "caption": "基于有效时间记录构建的 Agent 通信网络"
+    },
+    {
+      "number": 21,
+      "figure": "reports/figures/08_dashboard_overview.png",
+      "caption": "四图版前端页面实际运行画面 局部"
+    }
+  ],
+  "reference_voice": "按实验目的 步骤 运行结果 结果分析 小结展开；采用自然的课程实验叙述，不复制参考身份经历或实验结论",
+  "data": {
+    "messages": 912,
+    "agents": 7,
+    "rounds": 23,
+    "candidates": 69
+  }
+}

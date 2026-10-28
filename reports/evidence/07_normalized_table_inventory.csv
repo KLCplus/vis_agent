@@ -1,0 +1,9 @@
+﻿table,rows,columns,bytes,path
+messages,912,18,615914,data/processed/messages.csv
+agents,7,17,2302,data/processed/agents.csv
+events,129,8,36385,data/processed/events.csv
+internal_states,86,10,85027,data/processed/internal_states.csv
+communication_edges,898,11,112166,data/processed/communication_edges.csv
+participants,100,9,27547,data/processed/participants.csv
+rounds,23,9,33994,data/processed/rounds.csv
+candidates,69,15,86584,data/processed/candidates.csv
